@@ -1,4 +1,4 @@
-package disassembler;
+﻿package desensamblador;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -294,7 +294,7 @@ public class disassembler {
             ///busca la dirección
             if(_tags[i][1].equals(iteracion+"")){
                 //regresa el nombre de la etiqueta
-		return _tags[i][0]; 
+		return _tags[i][0]+":"; 
             }
         }
 	return "";

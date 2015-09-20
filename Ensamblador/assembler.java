@@ -1,11 +1,13 @@
-package assembler;
+﻿package assembler;
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.io.*;
 import java.util.*;
 import java.nio.*;
 
 public class assembler {
 	
-	static String[] tokens;
+    static String[] tokens;
     static String[] KWA;
     static String[] instructions;
     static String[][] data;
@@ -36,6 +38,19 @@ public class assembler {
     }
     //LLENAR TOKENS
     public static void fillTokensArray()throws Exception{
+    /*    //OPEN FILE DIALOG
+        Frame f=new Frame();
+        
+        FileDialog fd = new FileDialog(f, "Choose a file", FileDialog.LOAD);
+        fd.setDirectory("C:\\");
+        fd.setFile("*.xml");
+        fd.setVisible(true);
+        String filename = fd.getFile();
+        if (filename == null)
+            System.out.println("You cancelled the choice");
+        else
+            System.out.println("You chose " + filename);
+        f.dispose();*/
         //archivo a "ensamblar"
         Scanner sc = new Scanner(new FileReader("FIBO.ASM"));
         //instrucciones
@@ -46,7 +61,7 @@ public class assembler {
 
         while(sc.hasNext()){
             inst=sc.next();
-            
+            if(inst.charAt(0)!=';')
             //instruccion normal
             if(validarInstruccion(inst)==1){ 
                 tokens=agrandarVector(tokens,3);
@@ -70,9 +85,11 @@ public class assembler {
                 else{
                     //instruccion corta
                     if(validarInstruccion(inst)==3){
-                        tokens=agrandarVector(tokens,1);
+                        tokens=agrandarVector(tokens,2);
                         tokens[contador]=inst;
                         contador++;
+                        tokens[contador]="";
+                    contador++;
                     }
                     else{
                         //etiqueta
@@ -83,6 +100,7 @@ public class assembler {
                             inst=sc.next();
                             tokens[contador]=inst;
                             contador++;
+                           
                         }
                         else
                             sc.nextLine();
@@ -286,37 +304,37 @@ public class assembler {
 		return true;
 	}
 	public static int getTypeToken(String token){
-	if(token == "")
+	if(token.equals(""))
 		return 0; //It's Space
 	
-	if(token.substring(token.length() - 1)  == ":")
+	if(token.substring(token.length() - 1).equals( ":"))
 		return 3; //It's Tag
 	
-	if(token == "ADD" || token == "SUB" || token == "MUL" || token == "DIV" || token == "MOD" || token == "CMPEQ" 
-			|| token == "CPMNE" || token == "CMPLT" || token == "CMPLE" || token == "CMPGT" || token == "CMPGE"
-			|| token == "POPINDEX" || token == "WRTLN" || token == "HALT")
+	if(token.equals("ADD") || token.equals( "SUB") || token.equals( "MUL" )|| token.equals( "DIV" )|| token.equals( "MOD") || token.equals( "CMPEQ") 
+			|| token.equals( "CPMNE") || token.equals( "CMPLT" )|| token.equals( "CMPLE" )|| token.equals( "CMPGT" )|| token.equals( "CMPGE")
+			|| token.equals( "POPINDEX" )|| token.equals( "WRTLN" )|| token.equals( "HALT"))
 		return 4; //It's Instruction 0
 	 
 	
-	if(token == "SETINDEXK" || token == "PUSHKI" || token == "PUSHKF" || token == "PUSHKD" || token == "PUSHKC")
+	if(token.equals( "SETINDEXK") || token.equals( "PUSHKI" )|| token.equals( "PUSHKF" )|| token.equals( "PUSHKD" )|| token.equals( "PUSHKC"))
 		return 5; //It's Instruction K
 	
-	if(token == "READI" || token == "READD" || token == "READF" || token == "READC" || token == "READS" || token == "READVI" 
-			|| token == "READVD" || token == "READVF" || token == "READVC" || token == "READVS" || token == "WRTI"
-			|| token == "WRTD" || token == "WRTF" || token == "WRTC" || token == "WRTS" || token == "WRTVI" 
-			|| token == "WRTVD" || token == "WRTVC" || token == "WRTVF" || token == "WRTVS" || token == "SETINDEX" 
-			|| token == "PUSHI" || token == "PUSHD" || token == "PUSHC" || token == "PUSHF" || token == "PUSHS"
-			|| token == "PUSHVI" || token == "PUSHVF" || token == "PUSHVD" || token == "PUSHVC" || token == "PUSHVS"
-			|| token == "POPI" || token == "POPD" || token == "POPC" || token == "POPF" || token == "POPS"
-			|| token == "POPVI" || token == "POPVD" || token == "POPVC" || token == "POPVF" || token == "POPVS"
-			|| token == "JMP" || token == "JMPT" || token == "JMPF" || token == "POPVF" || token == "POPVS"
-			|| token == "DEFI" || token == "DEFD" || token == "DEFF" || token == "DEFC")
+	if(token.equals( "READI" )|| token.equals( "READD" )|| token.equals( "READF" )|| token.equals( "READC" )|| token.equals( "READS" )|| token.equals( "READVI") 
+			|| token.equals( "READVD" )|| token.equals( "READVF" )|| token.equals( "READVC" )|| token.equals( "READVS" )|| token.equals( "WRTI")
+			|| token.equals( "WRTD" )|| token.equals( "WRTF" )|| token.equals( "WRTC" )|| token.equals( "WRTS" )|| token.equals( "WRTVI" )
+			|| token.equals( "WRTVD" )|| token.equals( "WRTVC" )|| token.equals( "WRTVF" )|| token.equals( "WRTVS" )|| token.equals( "SETINDEX" )
+			|| token.equals( "PUSHI" )|| token.equals( "PUSHD") || token.equals( "PUSHC" )|| token.equals( "PUSHF" )|| token.equals( "PUSHS")
+			|| token.equals( "PUSHVI" )|| token.equals( "PUSHVF" )|| token.equals( "PUSHVD" )|| token.equals( "PUSHVC" )|| token.equals( "PUSHVS")
+			|| token.equals( "POPI" )|| token.equals( "POPD" )|| token.equals( "POPC" )|| token.equals( "POPF" )|| token.equals( "POPS")
+			|| token.equals( "POPVI" )|| token.equals( "POPVD" )|| token.equals( "POPVC" )|| token.equals( "POPVF" )|| token.equals( "POPVS")
+			|| token.equals( "JMP" )|| token.equals( "JMPT" )|| token.equals( "JMPF" )|| token.equals( "POPVF") || token.equals( "POPVS")
+			|| token.equals( "DEFI" )|| token.equals( "DEFD" )|| token.equals( "DEFF" )|| token.equals( "DEFC"))
 		return 6; //It's Instruction V
 	
-	if(token == "DEFVI" || token == "DEFVD" || token == "DEFVF" || token == "DEFVC" || token == "DEFVS")
+	if(token.equals( "DEFVI" )|| token.equals( "DEFVD" )|| token.equals( "DEFVF") || token.equals( "DEFVC" )|| token.equals( "DEFVS"))
 		return 7; // It's Instruction VK
 	
-	if(token == "DEFS" || token == "PUSHKS" || token == "WRTM")
+	if(token.equals( "DEFS" )|| token.equals( "PUSHKS" )|| token.equals( "WRTM"))
 		return 8; //It's Instruction KV
 	
 	return 1; //Its K or V
@@ -780,10 +798,12 @@ public class assembler {
         try{
             File texto=new File("Tags.txt");
             FileWriter escribir = new FileWriter(texto,false);
-            
+           
             for(int i=0;i<tags.length;i++)
-                escribir.write(tags[i][0]+" "+tags[i][1]+"\r\n");
-            
+            {
+                escribir.write(tags[i][0].substring(0,tags[i][0].length()-1)+" "+tags[i][1]+"\r\n");
+                
+            }
             escribir.close();
         }
         catch(Exception e){
