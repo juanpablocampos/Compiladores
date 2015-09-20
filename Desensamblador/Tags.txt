@@ -1,2 +1,2 @@
 ETQA: 32
-ETQB: 85
+ETQB: 8
