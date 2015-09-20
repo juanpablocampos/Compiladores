@@ -14,10 +14,9 @@ public class virtualMachine {
     //Contador para variables que son vectores
     static int _index;
     //Segmento de datos con [nombre] - [valor] - [dirección]
-    static byte[] _sd;
+    static String[] _sd;
     //Pila
     static KwaStack _stack = new KwaStack();
-    
     
     public static void main(String[] args) {
         _currentLine = 0;
@@ -28,198 +27,198 @@ public class virtualMachine {
         RunVirtualMachine();
     }
     public static void RunVirtualMachine(){
-        while(_currentLine <= _sc.length && !_sc[_currentLine].equals("0")){
-            switch(_sc[_currentLine]){
-                case "1":
+    	while(_currentLine <= _sc.length && ByteToInstruction(_sc[_currentLine])!=0){
+            switch(ByteToInstruction(_sc[_currentLine])){
+                case 1:
                     ReadI();
                     break;
-                case "2":
+                case 2:
                     ReadD();
                     break;
-                case "3":
+                case 3:
                     ReadF();
                     break;
-                case "4":
+                case 4:
                     ReadC();
                     break;
-                case "5":
+                case 5:
                     ReadS();
                     break;
-                case "6":
+                case 6:
                     ReadVI();
                     break;
-                case "7":
+                case 7:
                     ReadVD();
                     break;
-                case "8":
+                case 8:
                     ReadVF();
                     break;
-                case "9":
+                case 9:
                     ReadVC();
                     break;
-                case "10":
+                case 10:
                     ReadVS();
                     break;
-                case "11":
+                case 11:
                     WRTI();
                     break;
-                case "12":
+                case 12:
                     WRTD();
                     break;
-                case "13":
+                case 13:
                     WRTF();
                     break;
-                case "14":
+                case 14:
                     WRTC();
                     break;
-                case "15":
+                case 15:
                     WRTS();
                     break;
-                case "16":
+                case 16:
                     WRTM();
                     break;
-                case "17":
+                case 17:
                     WRTLN();
                     break;
-                case "18":
+                case 18:
                     WRTVI();
                     break;
-                case "19":
+                case 19:
                     WRTVD();
                     break;
-                case "20":
+                case 20:
                     WRTVC();
                     break;
-                case "21":
+                case 21:
                     WRTVF();
                     break;
-                case "22":
+                case 22:
                     WRTVS();
                     break;
-                case "23":
+                case 23:
                     SETINDEX();
                     break;
-                case "24":
+                case 24:
                     SETINDEXK();
                     break;
-                case "25":
+                case 25:
                     POPINDEX();
                     break;
-                case "26":
+                case 26:
                     PUSHI();
                     break;
-                case "27":
+                case 27:
                     PUSHD();
                     break;
-                case "28":
+                case 28:
                     PUSHC();
                     break;
-                case "29":
+                case 29:
                     PUSHF();
                     break;
-                case "30":
+                case 30:
                     PUSHS();
                     break;
-                case "31":
+                case 31:
                     PUSHKI();
                     break;
-                case "32":
+                case 32:
                     PUSHKF();
                     break;
-                case "33":
+                case 33:
                     PUSHKD();
                     break;
-                case "34":
+                case 34:
                     PUSHKC();
                     break;
-                case "35":
+                case 35:
                     PUSHKS();
                     break;
-                case "36":
+                case 36:
                     PUSHVI();
                     break;
-                case "37":
+                case 37:
                     PUSHVF();
                     break;
-                case "38":
+                case 38:
                     PUSHVD();
                     break;
-                case "39":
+                case 39:
                     PUSHVC();
                     break;
-                case "40":
+                case 40:
                     PUSHVS();
                     break;
-                case "41":
+                case 41:
                     POPI();
                     break;
-                case "42":
+                case 42:
                     POPD();
                     break;
-                case "43":
+                case 43:
                     POPC();
                     break;
-                case "44":
+                case 44:
                     POPF();
                     break;
-                case "45":
+                case 45:
                     POPS();
                     break;
-                case "46":
+                case 46:
                     POPVI();
                     break;
-                case "47":
+                case 47:
                     POPVD();
                     break;
-                case "48":
+                case 48:
                     POPVC();
                     break;
-                case "49":
+                case 49:
                     POPVF();
                     break;
-                case "50":
+                case 50:
                     POPVS();
                     break;
-                case "51":
+                case 51:
                     CMPEQ();
                     break;
-                case "52":
+                case 52:
                     CMPNE();
                     break;
-                case "53":
+                case 53:
                     CMPLT();
                     break;
-                case "54":
+                case 54:
                     CMPLE();
                     break;
-                case "55":
+                case 55:
                     CMPGT();
                     break;
-                case "56":
+                case 56:
                     CMPGE();
                     break;
-                case "57":
+                case 57:
                     JMP();
                     break;
-                case "58":
+                case 58:
                     JMPT();
                     break;
-                case "59":
+                case 59:
                     JMPF();
                     break;
-                case "60":
+                case 60:
                     ADD();
                     break;
-                case "61":
+                case 61:
                     SUB();
                     break;
-                case "62":
+                case 62:
                     MUL();
                     break;
-                case "63":
+                case 63:
                     DIV();
                     break;
-                case "64":
+                case 64:
                     MOD();
                     break;
                 default:
@@ -1720,6 +1719,8 @@ public class virtualMachine {
     	}
     }
     
+    
+    
     public static int ByteToStringLength(byte byteStringLength){
     	return byteStringLength & 0xff;
     }
@@ -1780,4 +1781,6 @@ public class virtualMachine {
     }
 
 }
+
+
 
