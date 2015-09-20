@@ -14,7 +14,7 @@ public class virtualMachine {
     //Contador para variables que son vectores
     static int _index;
     //Segmento de datos con [nombre] - [valor] - [dirección]
-    static String[] _sd;
+    static byte[] _sd;
     //Pila
     static KwaStack _stack = new KwaStack();
     
@@ -230,12 +230,26 @@ public class virtualMachine {
     }
     //Leer Segmento de Código
     public static void GetSC() throws IOException{
-    	_sc=Files.readAllBytes(Paths.get("output.KWA"));
+    	byte[] bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
+    	byte[] segment=new byte[2];
+    	segment[0]=bytesInFile[10];
+    	segment[1]=bytesInFile[11];
+    	
+    	_sc=new byte[ByteArrayToSegment(segment)];
+    	
+    	for(int i=14;i<bytesInFile.length;i++){
+    		_sc[i-14]=bytesInFile[i];
+    	}
+    	
     }
-    //Leer Segmento de Datos
-    public static void GetSD(){
-        
+    public static void GetSD() throws IOException{
+    	byte[] bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
+    	byte[] segment=new byte[2];
+    	segment[0]=bytesInFile[12];
+    	segment[1]=bytesInFile[13];
+    	_sd=new byte[ByteArrayToSegment(segment)];
     }
+    //Metodos
     public static void WRTI(){
         varPrint();
     }
@@ -1667,6 +1681,8 @@ public class virtualMachine {
         _currentLine ++;
     }
     //******BYTE CONVERSIONS*********
+    
+
     public static int getVariableTypeCode(String instruction){
     	switch(instruction.charAt(instruction.length()-1)){
 	    	case 'I':
@@ -1718,8 +1734,6 @@ public class virtualMachine {
     			return 0;
     	}
     }
-    
-    
     
     public static int ByteToStringLength(byte byteStringLength){
     	return byteStringLength & 0xff;
@@ -1781,6 +1795,4 @@ public class virtualMachine {
     }
 
 }
-
-
 
