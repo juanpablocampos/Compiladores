@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.nio.*;
 
-public class assembler {
+public class Assembler {
 	
     static String[] tokens;
     static String[] KWA;
@@ -38,27 +38,44 @@ public class assembler {
     }
     //LLENAR TOKENS
     public static void fillTokensArray()throws Exception{
-    /*    //OPEN FILE DIALOG
+       //OPEN FILE DIALOG
         Frame f=new Frame();
-        
+        boolean error=false;
         FileDialog fd = new FileDialog(f, "Choose a file", FileDialog.LOAD);
+        
         fd.setDirectory("C:\\");
-        fd.setFile("*.xml");
+        fd.setFile("*.ASM");
         fd.setVisible(true);
-        String filename = fd.getFile();
+        
+        String filename="";
+        
+         try
+        {
+         filename = fd.getFile();
         if (filename == null)
+        {
             System.out.println("You cancelled the choice");
+            error=true;
+        }
         else
+        {
             System.out.println("You chose " + filename);
-        f.dispose();*/
+            
+        }
+        }catch(Exception e){System.out.println(e.getMessage());error=true;}
+        if(error)
+            System.exit(0);
+        f.dispose();
+        
+        
         //archivo a "ensamblar"
-        Scanner sc = new Scanner(new FileReader("FIBO.ASM"));
+        Scanner sc = new Scanner(new FileReader(filename));
         //instrucciones
         Scanner instruc= new Scanner(new FileReader("InstruccionesKWA.txt"));
         //instruccion actual
         String inst="";
         int contador=0;
-
+int cont=0;
         while(sc.hasNext()){
             inst=sc.next();
             if(inst.charAt(0)!=';')
@@ -67,6 +84,7 @@ public class assembler {
                 tokens=agrandarVector(tokens,3);
                 tokens[contador]=inst;
                 contador++;
+                System.out.println(inst+cont++);
                 inst=sc.next();
                 tokens[contador]=inst;
                 contador++;
