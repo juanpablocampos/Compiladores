@@ -1,8 +1,8 @@
-package maquinavirtual;
+package virtualMachine;
 import java.util.LinkedList;
 
-class KwaStack { 
-    LinkedList<KwaVariable> stack;
+public class KwaStack {
+LinkedList<KwaVariable> stack;
     
     public KwaStack(){
         stack=new LinkedList<>();

@@ -1,7 +1,8 @@
-package maquinavirtual;
+package virtualMachine;
+
 
 public class KwaVariable {
-    private int _varInt;
+	private int _varInt;
     private double _varDouble;
     private float _varFloat;
     private String _varString;

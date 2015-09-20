@@ -1,19 +1,23 @@
-package maquinavirtual;
+package virtualMachine;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
-
-public class MaquinaVirtual {
+public class virtualMachine {
     //Contador de la linea actual (PC)  
     static int _currentLine;
-    //Direcci贸n de la variable dentro del segmento de datos
+    //Direcci髇 de la variable dentro del segmento de datos
     static int _dir;
-    //Arreglo de las instrucciones (Segmento de c贸digo)
-    static String[] _sc;
+    //Arreglo de las instrucciones (Segmento de c骴igo)
+    static byte[] _sc;
     //Contador para variables que son vectores
     static int _index;
-    //Segmento de datos con [nombre] - [valor] - [direcci贸n]
-    static String[][] _sd;
+    //Segmento de datos con [nombre] - [valor] - [direcci髇]
+    static byte[] _sd;
     //Pila
     static KwaStack _stack = new KwaStack();
+    
     
     public static void main(String[] args) {
         _currentLine = 0;
@@ -23,7 +27,6 @@ public class MaquinaVirtual {
         //GetSD();
         RunVirtualMachine();
     }
-    
     public static void RunVirtualMachine(){
         while(_currentLine <= _sc.length && !_sc[_currentLine].equals("0")){
             switch(_sc[_currentLine]){
@@ -226,49 +229,35 @@ public class MaquinaVirtual {
             }
         }
     }
-    
-    //Leer Segmento de C贸digo
-    public static void GetSC(){
-        ValidateHeader();
-        
+    //Leer Segmento de C骴igo
+    public static void GetSC() throws IOException{
+    	_sc=Files.readAllBytes(Paths.get("output.KWA"));
     }
-    
-    public static void ValidateHeader(){
-        
-    }
-    
     //Leer Segmento de Datos
     public static void GetSD(){
         
     }
-    
     public static void WRTI(){
         varPrint();
     }
-    
     public static void WRTD(){
         varPrint();
     }
-    
     public static void WRTF(){
         varPrint();
     }
-    
     public static void WRTC(){
         varPrint();
     }
-    
     public static void WRTS(){
         varPrint();
     }
-    
     public static void varPrint(){
     	_currentLine++;
     	_dir = Integer.parseInt(_sc[_currentLine]);
     	System.out.print(GetVariableValue(String.valueOf(_dir)));
     	_currentLine += 2;
     }
-    
     public static void WRTM(){
     	int longitud;
     	_currentLine++;
@@ -277,39 +266,33 @@ public class MaquinaVirtual {
     	System.out.print(GetVariableValue(String.valueOf(_dir)));
     	_currentLine += longitud;
     }
-    
     public static void WRTLN(){
     	System.out.println("");
     }
-    
     public static void WRTVI(){
     	_currentLine++;
     	_dir = Integer.parseInt(_sc[_currentLine]);
     	System.out.print(GetVariableValue(String.valueOf(_dir+_index*4)));
     	_currentLine += 2;
     }
-    
     public static void WRTVD(){
     	_currentLine++;
     	_dir = Integer.parseInt(_sc[_currentLine]);
     	System.out.print(GetVariableValue(String.valueOf(_dir+_index*8)));
     	_currentLine += 2;
     }
-    
     public static void WRTVF(){
         _currentLine++;
         _dir = Integer.parseInt(_sc[_currentLine]);
         System.out.print(GetVariableValue(String.valueOf(_dir+_index*4)));
         _currentLine +=2 ;
     }
-    
     public static void WRTVC(){
         _currentLine++;
         _dir = Integer.parseInt(_sc[_currentLine]);
         System.out.print(GetVariableValue(String.valueOf(_dir+_index)));
         _currentLine += 2;
     }
-    
     public static void WRTVS(){
         String StringValue;
         
@@ -323,7 +306,6 @@ public class MaquinaVirtual {
         System.out.print(StringValue);
         _currentLine += 2;
     }
-    
     public static void ReadI() {
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -336,7 +318,6 @@ public class MaquinaVirtual {
         setVariableValue(""+_dir,scan.nextLine(),"0");
         _currentLine+=2;
     }
-    
     public static void ReadD() {
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -349,7 +330,6 @@ public class MaquinaVirtual {
         setVariableValue(""+_dir,scan.nextLine(),"2");
         _currentLine+=2;
     }
-    
     public static void ReadF(){
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -362,7 +342,6 @@ public class MaquinaVirtual {
         setVariableValue(""+_dir,scan.nextLine(),"1");
         _currentLine+=2;
     }
-    
     public static void ReadC() {
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -375,7 +354,6 @@ public class MaquinaVirtual {
         setVariableValue(""+_dir,scan.nextLine(),"3");
         _currentLine+=2;
     }
-    
     public static void ReadS(){
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -388,7 +366,6 @@ public class MaquinaVirtual {
         setVariableValue(""+_dir,scan.nextLine(),"4");
         _currentLine+=2;
     }
-    
     public static void ReadVI(){
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -401,7 +378,6 @@ public class MaquinaVirtual {
         setVariableValue(""+(_dir+_index*4),scan.nextLine(),"0");
         _currentLine+=2;
     }
-    
     public static void ReadVD(){
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -414,7 +390,6 @@ public class MaquinaVirtual {
         setVariableValue(""+(_dir+_index*8),scan.nextLine(),"2");
         _currentLine+=2;
     }
-    
     public static void ReadVF(){
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -427,7 +402,6 @@ public class MaquinaVirtual {
         setVariableValue(""+(_dir+_index*4),scan.nextLine(),"1");
         _currentLine+=2;
     }
-    
     public static void ReadVC(){
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -440,7 +414,6 @@ public class MaquinaVirtual {
         setVariableValue(""+(_dir+_index*1),scan.nextLine(),"3");
         _currentLine+=2;
     }
-    
     public static void ReadVS(){
         Scanner scan=new Scanner(System.in);
         _currentLine++;
@@ -454,7 +427,6 @@ public class MaquinaVirtual {
         setVariableValueStringArray(scan.nextLine());
         _currentLine+=2;
     }
-    
     public static void setVariableValue(String dir, String newValue,String varType){ 
         boolean foundIt=false;
         for (String[] _sd1 : _sd) {
@@ -471,7 +443,6 @@ public class MaquinaVirtual {
         if(!foundIt)
             System.out.println("HORROR, no se encuentra la direccion en la tabla de datos");
     }
-    
     public static void setVariableValueStringArray(String newValue){ 
         boolean foundIt = false;
         for(int i=0;i<_sd.length;i++){
@@ -492,20 +463,17 @@ public class MaquinaVirtual {
         if(!foundIt)
             System.out.println("HORROR, no se encuentra la direccion en la tabla de datos");
     }
-    
     public static void SETINDEX(){
         _currentLine++;
         _dir=Integer.parseInt(_sc[_currentLine]);
         _index=Integer.parseInt(getVariableValue(_sc[_currentLine]));
         _currentLine+=2;
     }
-    
     public static void SETINDEXK(){
         _currentLine++;
         _index=Integer.parseInt(_sc[_currentLine]);
         _currentLine+=2;
     }
-    
     public static void POPINDEX(){
         try{
             _index = _stack.POPI();
@@ -515,12 +483,10 @@ public class MaquinaVirtual {
         }
         _currentLine ++;
     }
-
     public static void JMP(){
         _currentLine++;
         _currentLine=Integer.parseInt(_sc[_currentLine]);
     }
-    
     public static void JMPF(){
         int flag;
         flag=_stack.POPI();
@@ -532,7 +498,6 @@ public class MaquinaVirtual {
         else
             _currentLine+=2;
     }
-
     public static void JMPT(){
         int flag;
         flag=_stack.POPI();
@@ -544,7 +509,6 @@ public class MaquinaVirtual {
         else
             _currentLine+=2;
     }
-
     public static void CMPEQ(){
         double var1, var2 = 0;
         int result=0;
@@ -632,7 +596,6 @@ public class MaquinaVirtual {
         }
         _currentLine ++;
     }
-    
     public static void CMPNE(){
        double var1, var2 = 0, result;
         String varString1, varString2, resultString;
@@ -719,8 +682,6 @@ public class MaquinaVirtual {
         }
         _currentLine ++;
     }
-
-
     public static void CMPLT(){
         double var1, var2 = 0, result;
          String varString1, varString2, resultString;
@@ -807,7 +768,6 @@ public class MaquinaVirtual {
          }
         _currentLine ++;
     }
-
     public static void CMPLE(){
         double var1, var2 = 0, result;
          String varString1, varString2, resultString;
@@ -894,8 +854,6 @@ public class MaquinaVirtual {
          }
         _currentLine ++;
     }
-
-    
     public static void CMPGT(){
         double var1, var2 = 0, result;
          String varString1, varString2, resultString;
@@ -982,8 +940,6 @@ public class MaquinaVirtual {
          }
         _currentLine ++;
     }
-
-
     public static void CMPGE(){
          double var1, var2 = 0, result;
           String varString1, varString2, resultString;
@@ -1070,8 +1026,6 @@ public class MaquinaVirtual {
           }
         _currentLine ++;
     }
-
-    
     public static String getVariableValue(String realDir){
         int counter=0;
         while(counter<_sd.length && !_sd[counter][2].equals(realDir)){
@@ -1082,7 +1036,6 @@ public class MaquinaVirtual {
         }
         return "-1";
     }
-
     public static String getVariableDir(String variableName){
         int counter=0;
         while(counter<_sd.length && !_sd[counter][0].equals(variableName)){
@@ -1093,7 +1046,6 @@ public class MaquinaVirtual {
         }
         return "-1";
     }
-    
     public static String getVariableType(String realDir){
         int counter=0;
         while(counter<_sd.length && !_sd[counter][2].equals(realDir)){
@@ -1104,7 +1056,6 @@ public class MaquinaVirtual {
         }
         return "-1";
     }
-
     public static void PUSHI(){
         int valueInt;
         _currentLine++;
@@ -1113,7 +1064,6 @@ public class MaquinaVirtual {
         _stack.PUSHI(valueInt);
         _currentLine = _currentLine + 3;
     }
-    
     public static void PUSHD(){
         double valueDouble;
         _currentLine++;
@@ -1122,7 +1072,6 @@ public class MaquinaVirtual {
         _stack.PUSHD(valueDouble);
         _currentLine = _currentLine + 7;
     }
-
     public static void PUSHC(){
         char valueChar;
         _currentLine++;
@@ -1131,7 +1080,6 @@ public class MaquinaVirtual {
         _stack.PUSHC(valueChar);
         _currentLine = _currentLine + 1;
     }
-    
     public static void PUSHF(){
         float valueFloat;
         _currentLine++;
@@ -1140,7 +1088,6 @@ public class MaquinaVirtual {
         _stack.PUSHF(valueFloat);
         _currentLine = _currentLine + 3;
     }
-
     public static void PUSHS(){
         String valueString;
         _currentLine++;
@@ -1149,7 +1096,6 @@ public class MaquinaVirtual {
         _stack.PUSHS(valueString);
         _currentLine = _currentLine + 3;
     }
-    
     public static void PUSHKI(){
         int valueKInt;
         _currentLine++;
@@ -1158,7 +1104,6 @@ public class MaquinaVirtual {
         _stack.PUSHI(valueKInt);
         _currentLine = _currentLine + 3;
     }
-    
     public static void PUSHKF(){
         float valueFloat;
         _currentLine++;
@@ -1167,7 +1112,6 @@ public class MaquinaVirtual {
         _stack.PUSHF(valueFloat);
         _currentLine = _currentLine + 3;
     }
-    
     public static void PUSHKD(){
         double valueDouble;
         _currentLine++;
@@ -1176,7 +1120,6 @@ public class MaquinaVirtual {
         _stack.PUSHD(valueDouble);
         _currentLine = _currentLine + 7;
     }
-
     public static void PUSHKC(){
         char valueChar;
         _currentLine++;
@@ -1185,7 +1128,6 @@ public class MaquinaVirtual {
         _stack.PUSHC(valueChar);
         _currentLine = _currentLine + 1;
     }
-    
     public static void PUSHKS(){
         String valueString;
         _currentLine++;
@@ -1195,7 +1137,6 @@ public class MaquinaVirtual {
         int longValueString = valueString.length();
         _currentLine = longValueString + 2;
     }
-    
     public static void PUSHVI(){
         int valueInt;
         _currentLine++;
@@ -1204,7 +1145,6 @@ public class MaquinaVirtual {
         _stack.PUSHI(valueInt);
         _currentLine = _currentLine + 3;
     }
-    
     public static void PUSHVF(){
         int valueInt;
         _currentLine++;
@@ -1213,7 +1153,6 @@ public class MaquinaVirtual {
         _stack.PUSHI(valueInt);
         _currentLine++;
     }
-    
     public static void PUSHVD(){
         int valueInt;
         _currentLine++;
@@ -1222,7 +1161,6 @@ public class MaquinaVirtual {
         _stack.PUSHI(valueInt);
         _currentLine++;
     }
-    
     public static void PUSHVC(){
         int valueInt;
         _currentLine++;
@@ -1231,8 +1169,7 @@ public class MaquinaVirtual {
         _stack.PUSHI(valueInt);
         _currentLine++;
     }
-    
-    //************** PENDIENTEE ***************
+    //************** PENDIENTE ***************
     public static void PUSHVS(){
         String valueString;
         _currentLine++;
@@ -1241,7 +1178,6 @@ public class MaquinaVirtual {
         _stack.PUSHS(valueString);
         _currentLine = _currentLine + 3;
     }
-
     public static void POPI(){        
         int poppedVariable=0;
         try{
@@ -1255,7 +1191,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "0");
         _currentLine += 2; 
     }
-
     public static void POPF(){ 
         float poppedVariable=0.0f;
         try{
@@ -1269,7 +1204,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "1");
         _currentLine += 2; 
     }
-
     public static void POPD(){ 
         double poppedVariable=0.0;
         try{
@@ -1283,7 +1217,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "2");
         _currentLine += 2;
     }
-    
     public static void POPC(){ 
         char poppedVariable=' ';
         try{
@@ -1297,7 +1230,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "3");
         _currentLine += 2; 
     }
-    
     public static void POPS(){ 
         String poppedVariable="";
         try{
@@ -1311,7 +1243,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "4");
         _currentLine += 2; 
     }
-    
     public static void POPVI(){
         int poppedVariable=0;
         try{
@@ -1325,7 +1256,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "0");
         _currentLine += 2; 
       }
-    
     public static void POPVF(){ 
         float poppedVariable=0.0f;
         try{
@@ -1339,7 +1269,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "1");
         _currentLine += 2; 
     }
-    
     public static void POPVD(){ 
         double poppedVariable=0.0;
         try{
@@ -1353,7 +1282,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "2");
         _currentLine += 2;        
     }
-    
     public static void POPVC(){ 
         char poppedVariable = ' ';
         try{
@@ -1367,7 +1295,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "3");
         _currentLine += 2; 
     }
-    
     public static void POPVS(){ 
         String poppedVariable="";
         try{
@@ -1381,7 +1308,6 @@ public class MaquinaVirtual {
         setVariableValue(varAddress,""+poppedVariable, "4");
         _currentLine += 2; 
     }
-
     public static String GetVariableValue(String realDir){
         int counter=0;
         while(counter<_sd.length && !_sd[counter][2].equals(realDir)){
@@ -1392,7 +1318,6 @@ public class MaquinaVirtual {
         }
         return "-1";
     }
-    
     public static String GetVariableDir(String variableName){
         int counter=0;
         while(counter<_sd.length && !_sd[counter][0].equals(variableName)){
@@ -1403,7 +1328,6 @@ public class MaquinaVirtual {
         }
         return "-1";
     }
-    
     public static String GetVariableValueType(String realDir){
         int counter=0;
         while(counter<_sd.length && !_sd[counter][2].equals(realDir)){
@@ -1414,7 +1338,6 @@ public class MaquinaVirtual {
         }
         return "-1";
     }
-    
     public static String GetStringValue(){
         int InitialRow = 0;
         
@@ -1431,7 +1354,6 @@ public class MaquinaVirtual {
         }
         return String.valueOf(_sd[InitialRow+_index]);	
     }
-    
     public static void ADD(){
         double var1, var2, result;
         String varString1, varString2, resultString;
@@ -1511,7 +1433,6 @@ public class MaquinaVirtual {
         }
         _currentLine ++;
     }
-    
     public static void SUB(){
         double var1, var2, result;
         
@@ -1565,7 +1486,6 @@ public class MaquinaVirtual {
         }
         _currentLine ++;
     }
-    
     public static void MUL(){
         double var1, var2, result;
         
@@ -1617,7 +1537,6 @@ public class MaquinaVirtual {
         }
         _currentLine ++;
     }
-    
     public static void DIV(){
         double var1, var2, result;
         
@@ -1683,7 +1602,6 @@ public class MaquinaVirtual {
         }
         _currentLine ++;
     }
-    
     public static void MOD(){
         double var1, var2, result;
         
@@ -1749,4 +1667,117 @@ public class MaquinaVirtual {
         }
         _currentLine ++;
     }
+    //******BYTE CONVERSIONS*********
+    public static int getVariableTypeCode(String instruction){
+    	switch(instruction.charAt(instruction.length()-1)){
+	    	case 'I':
+	    		return 0;    	
+	    	case 'F':
+	    		return 1;    	
+	    	case 'D':
+	    		return 2;    	
+	    	case 'S':
+	    	case 'M':
+	    		return 3;    	
+	    	case 'C':
+	    		return 4;
+	    	default:
+	    		return -1;
+    	}
+    }
+    public static int getInstructionVariableSize(int instructionCode){
+    	switch(instructionCode){
+    		//READs
+    		case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 8:case 9:case 10:
+    		//WRTs
+    		case 11:case 12:case 13:case 14:case 15:
+    		//WRTVs
+    		case 18:case 19:case 20:case 21:case 22:
+    		//SETINDEX & POPINDEX
+    		case 23:case 25:case 26:case 27:case 28:case 29:case 30:
+    		//PUSHVs
+    		case 36:case 37:case 38:case 39:case 40:
+    		//POPs
+    		case 41:case 42:case 43:case 44:case 45:case 46:case 47:case 48:case 49:
+    		//JMPs
+    		case 50:case 57:case 58:case 59:
+    			return 2;
+    		//SETINDEXK PUSHKI PUSHKF
+    		case 24:case 31:case 32:
+    			return 4;
+    		//PUSHKD
+    		case 33:
+    			return 8;
+    		//PUSHKC
+    		case 34:
+    			return 1; 	
+    		//constant string
+    		case 16:case 35:
+    			return -1;
+    		//CMP & Arithmetic
+    		default:
+    			return 0;
+    	}
+    }
+    
+    public static int ByteToStringLength(byte byteStringLength){
+    	return byteStringLength & 0xff;
+    }
+    public static int ByteToInstruction(byte byteInstruction){
+    	return byteInstruction & 0xff;
+    }
+    public static int ByteArrayToInt(byte[] byteArray) {
+	    return ByteBuffer.wrap(byteArray).getInt();
+	}
+    public static float ByteArrayToFloat(byte[] byteArray){
+	    return ByteBuffer.wrap(byteArray).getFloat();
+	}
+    public static double ByteArrayToDouble(byte[] byteArray) {
+	    return ByteBuffer.wrap(byteArray).getDouble();
+	}
+    public static char ByteToChar(byte byteArray) {
+		return (char)(byteArray & 0xff);
+	}
+    public static int ByteArrayToSegment(byte[] segment){
+    	return ((segment[0] & 0xff) << 8) | (segment[1] & 0xff);
+    }
+    public static int ByteArrayToDir(byte[] dir){
+    	return ((dir[0] & 0xff) << 8) | (dir[1] & 0xff);
+    }
+    
+    public static byte StringLengthToByte(int stringLengthToConvert){
+    	return (byte)stringLengthToConvert;
+ 	}
+    public static byte InstructionToByte(int instructionToConvert){
+    	return (byte)instructionToConvert;
+ 	}
+    public static byte[] IntToByteArray(int numberToConvert){
+	   return ByteBuffer.allocate(4).putInt(numberToConvert).array();
+	}
+    public static byte[] FloatToByteArray(float numberToConvert)
+	{
+ 	   return ByteBuffer.allocate(4).putFloat(numberToConvert).array();
+	} 
+    public static byte[] DoubleToByteArray(double numberToConvert)
+	{
+ 	   return ByteBuffer.allocate(8).putDouble(numberToConvert).array();
+	}
+    public static byte CharToByte(char charToConvert)
+	{
+    	return (byte)charToConvert;
+	}
+    public static byte[] SegmentsToByteArray(int segmentSize){
+    	byte[] segmentIn2Bytes=new byte[2];
+    	segmentIn2Bytes[1]=(byte)(segmentSize & 0xFF);
+    	segmentIn2Bytes[0]=(byte)((segmentSize>>8) & 0xFF);
+    	return segmentIn2Bytes;
+    }
+    public static byte[] DirToByteArray(int dir){
+    	byte[] segmentIn2Bytes=new byte[2];
+    	segmentIn2Bytes[1]=(byte)(dir & 0xFF);
+    	segmentIn2Bytes[0]=(byte)((dir>>8) & 0xFF);
+    	return segmentIn2Bytes;
+    }
+
 }
+
