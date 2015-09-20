@@ -1151,47 +1151,41 @@ public class virtualMachine {
         _stack.PUSHS(valueString);
         int longValueString = valueString.length();
         _currentLine = longValueString + 2;
-    }
+    }   
     public static void PUSHVI(){
-        int valueInt;
+        int valueInt = 0;
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]) + ( _index * 4 ) ;
-        valueInt = Integer.parseInt(getVariableValue(String.valueOf(_dir)));
+        valueInt = GetVariableValue(GetDir(),valueInt);
         _stack.PUSHI(valueInt);
-        _currentLine = _currentLine + 3;
+        _currentLine += 2;
     }
     public static void PUSHVF(){
-        int valueInt;
+        float valueFloat = 0;
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]) + ( _index * 4 ) ;
-        valueInt = Integer.parseInt(getVariableValue(String.valueOf(_dir)));
-        _stack.PUSHI(valueInt);
-        _currentLine++;
+        valueFloat = GetVariableValue(GetDir(),valueFloat);
+        _stack.PUSHF(valueFloat);
+        _currentLine += 2;
     }
-    public static void PUSHVD(){
-        int valueInt;
+    public static void PUSHVD(){        
+        double valueDouble = 0;
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]) + ( _index * 8 );
-        valueInt = Integer.parseInt(getVariableValue(String.valueOf(_dir)));
-        _stack.PUSHI(valueInt);
-        _currentLine++;
+        valueDouble = GetVariableValue(GetDir(),valueDouble);
+        _stack.PUSHD(valueDouble);
+        _currentLine += 2;
     }
     public static void PUSHVC(){
-        int valueInt;
+        char valueChar = ' ';
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]) + ( _index * 1 );
-        valueInt = Integer.parseInt(getVariableValue(String.valueOf(_dir)));
-        _stack.PUSHI(valueInt);
-        _currentLine++;
+        valueChar = GetVariableValue(GetDir(),valueChar);
+        _stack.PUSHC(valueChar);
+        _currentLine += 2;
     }
-    //************** PENDIENTE ***************
     public static void PUSHVS(){
-        String valueString;
+        String valueString = "";
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]) + ( _index * 1 );
-        valueString = getVariableValue(String.valueOf(_dir));
+        valueString = GetVariableValue(GetDir(),valueString);
         _stack.PUSHS(valueString);
-        _currentLine = _currentLine + 3;
+        _currentLine += 2;
     }
     public static void POPI(){        
         int poppedVariable=0;
@@ -1259,69 +1253,64 @@ public class virtualMachine {
         _currentLine += 2; 
     }
     public static void POPVI(){
-        int poppedVariable=0;
+        int poppedVariable = 0;
         try{
             poppedVariable = _stack.POPI();
+            _currentLine++;
+            SetVariableValue(GetDir(),poppedVariable);
+            _currentLine += 2;
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-        _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "0");
-        _currentLine += 2; 
       }
     public static void POPVF(){ 
-        float poppedVariable=0.0f;
+        float poppedVariable = 0.0f;
         try{
             poppedVariable = _stack.POPI();
+            _currentLine ++;
+            SetVariableValue(GetDir(),poppedVariable);
+            _currentLine += 2;
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-        _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "1");
-        _currentLine += 2; 
     }
     public static void POPVD(){ 
-        double poppedVariable=0.0;
+        double poppedVariable = 0.0;
         try{
             poppedVariable = _stack.POPI();
+            _currentLine ++;
+            SetVariableValue(GetDir(),poppedVariable);
+            _currentLine += 2;
         }
         catch(Exception e){
             System.out.println(e.getMessage());
-        }
-        _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "2");
-        _currentLine += 2;        
+        }     
     }
     public static void POPVC(){ 
         char poppedVariable = ' ';
         try{
-            poppedVariable = (char)_stack.POPI();
+            poppedVariable = _stack.POPC();
+            _currentLine ++;
+            SetVariableValue(GetDir(), poppedVariable);
+            _currentLine += 2;
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-        _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "3");
-        _currentLine += 2; 
     }
     public static void POPVS(){ 
         String poppedVariable="";
         try{
-            poppedVariable = Integer.toString(_stack.POPI());
+            poppedVariable = _stack.POPS();
+            _currentLine ++;
+            SetVariableValue(GetDir(), poppedVariable);
+            _currentLine += 2;
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-        _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "4");
-        _currentLine += 2; 
     }
     public static String GetVariableValue(String realDir){
         int counter=0;
