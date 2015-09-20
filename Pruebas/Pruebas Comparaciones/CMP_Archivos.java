@@ -1,6 +1,7 @@
 import java.io.*;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class CMP_Archivos {
@@ -8,14 +9,12 @@ public class CMP_Archivos {
 	public static void main(String lqs[])
 	{
 		compare();
-	
 	}
-	
 	
 	public static void compare()
 	{
-		String linea,linea2;
-		int contador=0;
+		String linea,linea2, mensaje = "";
+		int contador = 0;
 		
 		JFileChooser chooser = new JFileChooser();
 		JFileChooser chooser2= new JFileChooser();
@@ -43,45 +42,32 @@ public class CMP_Archivos {
 		    		BufferedReader Lectura = new BufferedReader(lector);
 		    		BufferedReader Lectura2 = new BufferedReader(lector2);
 		    		
-		    		
 		    		do
 		    		{
-		    			linea=Lectura.readLine();		    		    
-			    		linea2=Lectura2.readLine();
+		    			linea = Lectura.readLine();		    		    
+			    		linea2 = Lectura2.readLine();
 			    		
 			    		if(linea != null && linea2 != null)
 			    		{
 			    			
 			    			if(!linea.equals(linea2))
 			    			{
-			    				System.out.println("Fallo en esta linea:" + linea +" != " + linea2);
-			    				System.out.println("Linea: " + contador);
-			    				System.out.println("");
-			    				
+			    				mensaje += "Fallo en esta linea:" + linea +" != " + linea2 +"\n" + "Linea: " + contador + "\n\n";
 			    			}
 			    		}
 			    		
-			    		
-    		
 			    		contador++;
-		    		}while(linea!=null);
-		    		
+		    		}while(linea != null);
+		    		JOptionPane.showMessageDialog(null, mensaje,"ERROR", JOptionPane.ERROR_MESSAGE);
 		    		Lectura.close();
 		    		Lectura2.close();
 		    		
-
-		    
-		    	}catch(Exception e)
+		    	}
+		    	catch(Exception e)
 		    	{
 		    		System.out.print(e.getMessage());
 		    	}
 		    }
-		   
 	    }
-	   
-	    
-	    
-	    
-	
 	}
 }
