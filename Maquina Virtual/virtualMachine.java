@@ -1110,10 +1110,12 @@ public class virtualMachine {
         _currentLine = _currentLine + 3;
     }
     public static void PUSHKI(){
+        //Cambiar la logica de las constantes
+        //Tomar el valor directamente del vector _sc
         int valueKInt;
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueKInt = Integer.parseInt(getVariableValue(String.valueOf(_dir)));
+        valueKInt = Integer.parseInt(_sc[_currentLine]);
+        //valueKInt = Integer.parseInt(_sc[_currentLine]);
         _stack.PUSHI(valueKInt);
         _currentLine = _currentLine + 3;
     }
