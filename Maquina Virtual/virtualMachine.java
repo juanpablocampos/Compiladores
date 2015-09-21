@@ -281,6 +281,7 @@ public class virtualMachine {
         char b='0';
         float c=0f;
         String d="0";
+        _dir=GetDir();
         switch (x)
         {
             case 0:
@@ -1013,7 +1014,7 @@ public class virtualMachine {
     }
     
     public static void ADD(){
-        double var1, var2, result;
+        double var1, var2=0, result;
         String varString1, varString2, resultString;
         
         //Entero
