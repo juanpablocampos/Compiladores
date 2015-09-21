@@ -24,19 +24,19 @@ ETQA: PUSHI hora
 	PUSHKI 12
 	CMPGT
 	JMPT ETQD
-ETQB: WRTM 8,son las 
+ETQB: WRTM 8,sonlas 
 	WRTI hora
-	WRTM 1,:
+	WRTM 1,a
 	WRTI minutos
-	WRTM 3, am
+	WRTM 3,am
 	JMP ETQE
 ETQC: PUSHKI 12
 	POPI hora
 	JMPT ETQB
-ETQD: WRTM 8,son las 
+ETQD: WRTM 8,sonlas 
 	WRTI hora
-	WRTM 1,:
+	WRTM 1,a
 	WRTI minutos
-	WRTM 3, pm
+	WRTM 3,pm
 	JMP ETQE
 ETQE: HALT
