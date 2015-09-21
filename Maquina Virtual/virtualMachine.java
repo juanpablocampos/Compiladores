@@ -24,8 +24,8 @@ public class virtualMachine {
         _currentLine = 0;
         _dir = 0;
         _index = 0;
-        //GetSC();
-        //GetSD();
+        GetSC();
+        GetSD();
         RunVirtualMachine();
     }
     public static void RunVirtualMachine(){
