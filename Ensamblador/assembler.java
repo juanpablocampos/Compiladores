@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.nio.*;
 
-public class Assembler {
+public class assembler {
 	
     static String[] tokens;
     static String[] KWA;
