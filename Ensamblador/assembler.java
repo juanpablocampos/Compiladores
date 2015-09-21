@@ -295,7 +295,7 @@ public class assembler {
 							
 							words=isWord(part1);
 							
-							//Revisa si la parte 1 es numerica y la 2da son letras
+							//Revisa si la parte 1 son letras y la 2da son numeros
 							if(words && isNumeric(part2))
 							{
 								previousprevious=previous;
@@ -304,8 +304,8 @@ public class assembler {
 							}else
 							{
 								words=isWord(part2);
-								//Revisa si la primera parte son Letras y la segunda son Numeros
-								if(isNumeric(part1)&&words)
+								//Revisa si la primera parte son numeros y la segunda son letras
+								if(isNumeric(part1) && words && previous != 9)
 								{
 									previousprevious=previous;
 									previous=1;
@@ -313,8 +313,17 @@ public class assembler {
 								}
 								else
 								{
-									System.out.print("Error de Sintaxis en"+ tokens[index]);
-									return false;
+									if(isNumeric(part1))
+									{
+										previousprevious=previous;
+										previous=1;
+										actualtype=1;
+										
+									}else
+									{
+										System.out.print("Error de Sintaxis en"+ tokens[index]);
+										return false;
+									}
 								}
 							}
 							
@@ -386,7 +395,7 @@ public class assembler {
 		return 3; //It's Tag
 	
 	if(token.equals("ADD") || token.equals( "SUB") || token.equals( "MUL" )|| token.equals( "DIV" )|| token.equals( "MOD") || token.equals( "CMPEQ") 
-			|| token.equals( "CMPNE") || token.equals( "CMPLT" )|| token.equals( "CMPLE" )|| token.equals( "CMPGT" )|| token.equals( "CMPGE")
+			|| token.equals( "CPMNE") || token.equals( "CMPLT" )|| token.equals( "CMPLE" )|| token.equals( "CMPGT" )|| token.equals( "CMPGE")
 			|| token.equals( "POPINDEX" )|| token.equals( "WRTLN" )|| token.equals( "HALT"))
 		return 4; //It's Instruction 0
 	 
@@ -409,8 +418,13 @@ public class assembler {
 	if(token.equals( "DEFVI" )|| token.equals( "DEFVD" )|| token.equals( "DEFVF") || token.equals( "DEFVC" )|| token.equals( "DEFVS"))
 		return 7; // It's Instruction VK
 	
-	if(token.equals( "DEFS" )|| token.equals( "PUSHKS" )|| token.equals( "WRTM"))
+	if(token.equals( "DEFS" ))
 		return 8; //It's Instruction KV
+	
+	if( token.equals( "PUSHKS" )|| token.equals( "WRTM"))
+	{
+		return 9; //It's Instruction KK;
+	}
 	
 	return 1; //Its K or V
 
@@ -424,7 +438,7 @@ public class assembler {
                 return false;
         
         if(actual==1)
-            if(previous==5 || previous==8 || (previous==2 && previousprevious == 7))
+            if(previous==5 || previous==8 || (previous==2 && previousprevious == 7) || (previous==1 && previousprevious== 9) )
                 return true;
             else
                 return false;
@@ -440,7 +454,7 @@ public class assembler {
                 return true;
             else
                 return false;
-        if(actual == 4 || actual == 5 || actual == 6 || actual == 7 || actual == 8)
+        if(actual == 4 || actual == 5 || actual == 6 || actual == 7 || actual == 8 || actual == 9)
             if(previous == 0 || previous == 3)
                 return true;
             else
