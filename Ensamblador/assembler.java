@@ -119,12 +119,12 @@ public class assembler {
                         else{
                             //etiqueta
                             if(validarInstruccion(inst)==2){ 
-                                tokens=agrandarVector(tokens,2);
+                                tokens=agrandarVector(tokens,1);
                                 tokens[contador]=inst;
                                 contador++;
-                                inst=sc.next();
-                                tokens[contador]=inst;
-                                contador++;                          
+                                //inst=sc.next();
+                                //tokens[contador]=inst;
+                                //contador++;                          
                             }
                             else
                             {
@@ -134,6 +134,10 @@ public class assembler {
                                     tokens[contador]=inst;
                                     contador++;
                                     inst=sc.nextLine();
+                                    stringintnum=0;
+                                    stringsentsize=0;
+                                    stringnumber="";
+                                    stringmessage="";
 
                                     int i=0;
                                     //sacar el tamaño enviado
