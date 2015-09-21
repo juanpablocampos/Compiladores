@@ -17,6 +17,8 @@ public class virtualMachine {
     static byte[] _sd;
     //Pila
     static KwaStack _stack = new KwaStack();
+    //Variable predefinida para comparar con valor NULL
+    static char _nullValue='\u0000';
     
     public static void main(String[] args) {
         _currentLine = 0;
@@ -1023,36 +1025,7 @@ public class virtualMachine {
           }
         _currentLine ++;
     }
-    public static String getVariableValue(String realDir){
-        int counter=0;
-        while(counter<_sd.length && !_sd[counter][2].equals(realDir)){
-            if(_sd[counter][2].equals(realDir)){
-                return _sd[counter][1];
-            }
-            counter++;
-        }
-        return "-1";
-    }
-    public static String getVariableDir(String variableName){
-        int counter=0;
-        while(counter<_sd.length && !_sd[counter][0].equals(variableName)){
-            if(_sd[counter][0].equals(variableName)){
-                return _sd[counter][2];
-            }
-            counter++;
-        }
-        return "-1";
-    }
-    public static String getVariableType(String realDir){
-        int counter=0;
-        while(counter<_sd.length && !_sd[counter][2].equals(realDir)){
-            if(_sd[counter][2].equals(realDir)){
-                return _sd[counter][3];
-            }
-            counter++;
-        }
-        return "-1";
-    }
+    
     public static void PUSHI(){
         int valueInt=0;
         _currentLine++;
@@ -1165,7 +1138,7 @@ public class virtualMachine {
         _stack.PUSHS(valueString);
         _currentLine += 2;
     }
-    public static void POPI(){        
+        public static void POPI(){        
         int poppedVariable=0;
         try{
             poppedVariable = _stack.POPI();
@@ -1174,8 +1147,8 @@ public class virtualMachine {
             System.out.println(e.getMessage());
         }
         _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "0");
+        _dir = GetDir();
+        SetVariableValue(_dir,poppedVariable);
         _currentLine += 2; 
     }
     public static void POPF(){ 
@@ -1187,8 +1160,8 @@ public class virtualMachine {
             System.out.println(e.getMessage());
         }
         _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "1");
+        _dir = GetDir();
+        SetVariableValue(_dir,poppedVariable);
         _currentLine += 2; 
     }
     public static void POPD(){ 
@@ -1200,8 +1173,8 @@ public class virtualMachine {
             System.out.println(e.getMessage());
         }
         _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "2");
+        _dir = GetDir();
+        SetVariableValue(_dir,poppedVariable);
         _currentLine += 2;
     }
     public static void POPC(){ 
@@ -1213,8 +1186,8 @@ public class virtualMachine {
             System.out.println(e.getMessage());
         }
         _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "3");
+        _dir = GetDir();
+        SetVariableValue(_dir,poppedVariable);
         _currentLine += 2; 
     }
     public static void POPS(){ 
@@ -1226,8 +1199,8 @@ public class virtualMachine {
             System.out.println(e.getMessage());
         }
         _currentLine ++;
-        String varAddress =_sc[_currentLine];
-        setVariableValue(varAddress,""+poppedVariable, "4");
+        _dir = GetDir();
+        SetVariableValue(_dir,poppedVariable);
         _currentLine += 2; 
     }
     public static void POPVI(){
@@ -1290,52 +1263,7 @@ public class virtualMachine {
             System.out.println(e.getMessage());
         }
     }
-    public static String GetVariableValue(String realDir){
-        int counter=0;
-        while(counter<_sd.length && !_sd[counter][2].equals(realDir)){
-                if(_sd[counter][2].equals(realDir)){
-                        return _sd[counter][1];
-                }
-                counter++;
-        }
-        return "-1";
-    }
-    public static String GetVariableDir(String variableName){
-        int counter=0;
-        while(counter<_sd.length && !_sd[counter][0].equals(variableName)){
-                if(_sd[counter][0].equals(variableName)){
-                        return _sd[counter][2];
-                }
-                counter++;
-        }
-        return "-1";
-    }
-    public static String GetVariableValueType(String realDir){
-        int counter=0;
-        while(counter<_sd.length && !_sd[counter][2].equals(realDir)){
-                if(_sd[counter][2].equals(realDir)){
-                        return _sd[counter][3];
-                        }
-                                counter++;
-        }
-        return "-1";
-    }
-    public static String GetStringValue(){
-        int InitialRow = 0;
-        
-        for (String[] _sd1 : _sd) {
-            if (_sd1[2].equals(_dir+"")) {
-                InitialRow = Integer.parseInt(_sd1[2]);
-                break;
-            }
-        }
-
-        if(InitialRow+_index >= _sd.length){
-            System.out.print("HORROR HORROR, problema en el segmento de datos, es muy corto!!!");
-            return -1+"";
-        }
-        return String.valueOf(_sd[InitialRow+_index]);	
-    }
+    
     public static void ADD(){
         double var1, var2, result;
         String varString1, varString2, resultString;
@@ -1857,7 +1785,7 @@ public class virtualMachine {
     	return ByteArrayToInt(doubleToConvert);
     }
     public static char GetConstantValue(char dummyValue){
-    	return ByteToChar(_sc[_currentLine+i]);
+    	return ByteToChar(_sc[_currentLine]);
     } 
     public static String GetConstantValue(String dummyValue){
     	String stringToReturn="";

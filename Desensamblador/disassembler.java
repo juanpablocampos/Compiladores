@@ -1,5 +1,7 @@
-﻿package desensamblador;
+﻿package disassembler;
 
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class disassembler {
+public class Disassembler{
 	private static String [] _KWA;
     private static String [][] _tags=new String[0][2];
     private static String [][] _variables=new String[0][4];
@@ -62,6 +64,33 @@ public class disassembler {
     }
     //FILL _KWA
     public static void fill_KWA() throws IOException{
+        //OPEN FILE DIALOG
+        Frame f=new Frame();
+        boolean error=false;
+        FileDialog fd = new FileDialog(f, "Choose a file", FileDialog.LOAD);       
+        fd.setDirectory("C:\\");
+        fd.setFile("*.KWA");
+        fd.setVisible(true);
+        String filename="";
+        
+         try
+        {
+         filename = fd.getFile();
+        if (filename == null)
+        {
+            System.out.println("You cancelled the choice");
+            error=true;
+        }
+        else
+        {
+            System.out.println("You chose " + filename);
+            
+        }
+        }catch(Exception e){System.out.println(e.getMessage());error=true;}
+        if(error)
+            System.exit(0);
+        f.dispose();
+        
     	_bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
     	byte[] segment=new byte[2];
     	byte[] dir=new byte[2];

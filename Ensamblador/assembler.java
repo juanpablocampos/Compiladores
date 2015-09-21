@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.nio.*;
 
-public class assembler {
+public class Assembler {
 	
     static String[] tokens;
     static String[] KWA;
@@ -15,6 +15,7 @@ public class assembler {
     static String[][] referencedTags;
     static int SC=0, SD=0;
     static byte[] bytesInFile;
+    static String fileName;
     public static void main (String[] args) throws Exception{
         tokens=new String[0];
         KWA=new String[0];
@@ -47,19 +48,19 @@ public class assembler {
         fd.setFile("*.ASM");
         fd.setVisible(true);
         
-        String filename="";
+        fileName="";
         
          try
         {
-         filename = fd.getFile();
-        if (filename == null)
+         fileName = fd.getFile();
+        if (fileName == null)
         {
             System.out.println("You cancelled the choice");
             error=true;
         }
         else
         {
-            System.out.println("You chose " + filename);
+            System.out.println("You chose " + fileName);
             
         }
         }catch(Exception e){System.out.println(e.getMessage());error=true;}
@@ -69,7 +70,7 @@ public class assembler {
         
         
         //archivo a "ensamblar"
-        Scanner sc = new Scanner(new FileReader(filename));
+        Scanner sc = new Scanner(new FileReader(fileName));
         //instrucciones
         Scanner instruc= new Scanner(new FileReader("InstruccionesKWA.txt"));
         //instruccion actual
@@ -849,7 +850,7 @@ public class assembler {
     }
 	//ESCRITURA DE ARCHIVOS
     public static void writeAssemblyFile() throws NumberFormatException, IOException{
-		BufferedOutputStream bufferedOut = new BufferedOutputStream(new FileOutputStream("output.KWA")); 
+		BufferedOutputStream bufferedOut = new BufferedOutputStream(new FileOutputStream(fileName.substring(0, fileName.length()-3)+"KWA")); 
     	int instructionLength=0, variableSize=0;
     	String stringToSave="";
     	
