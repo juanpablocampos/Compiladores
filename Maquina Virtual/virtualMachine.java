@@ -322,123 +322,142 @@ public class virtualMachine {
     public static void ReadI() {
         Scanner scan=new Scanner(System.in);
         _currentLine++;
+        int newValue = 0;
         try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
+        	newValue = Integer.parseInt(scan.nextLine());
+            _dir=GetDir();
             }
         catch(Exception e){
                 System.out.println(e.getMessage());
         }
-        setVariableValue(""+_dir,scan.nextLine(),"0");
+        SetVariableValue(_dir,newValue);
         _currentLine+=2;
     }
     public static void ReadD() {
-        Scanner scan=new Scanner(System.in);
-        _currentLine++;
-        try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        setVariableValue(""+_dir,scan.nextLine(),"2");
-        _currentLine+=2;
+    	 Scanner scan=new Scanner(System.in);
+         _currentLine++;
+         double newValue = 0;
+         try{
+        	newValue = Double.parseDouble(scan.nextLine());
+             _dir=GetDir();
+             }
+         catch(Exception e){
+                 System.out.println(e.getMessage());
+         }
+         SetVariableValue(_dir,newValue);
+         _currentLine+=2;
     }
     public static void ReadF(){
-        Scanner scan=new Scanner(System.in);
-        _currentLine++;
-        try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        setVariableValue(""+_dir,scan.nextLine(),"1");
-        _currentLine+=2;
+    	 Scanner scan=new Scanner(System.in);
+         _currentLine++;
+         float newValue = 0;
+         try{
+        	 newValue = Float.parseFloat(scan.nextLine());
+             _dir=GetDir();
+             }
+         catch(Exception e){
+                 System.out.println(e.getMessage());
+         }
+         SetVariableValue(_dir,newValue);
+         _currentLine+=2;
     }
     public static void ReadC() {
-        Scanner scan=new Scanner(System.in);
-        _currentLine++;
-        try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        setVariableValue(""+_dir,scan.nextLine(),"3");
-        _currentLine+=2;
+    	 Scanner scan=new Scanner(System.in);
+         _currentLine++;
+         char newValue = ' ';
+         try{
+        	 newValue = (scan.nextLine()).charAt(0);
+             _dir=GetDir();
+             }
+         catch(Exception e){
+                 System.out.println(e.getMessage());
+         }
+         SetVariableValue(_dir,newValue);
+         _currentLine+=2;
     }
     public static void ReadS(){
-        Scanner scan=new Scanner(System.in);
-        _currentLine++;
-        try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        setVariableValue(""+_dir,scan.nextLine(),"4");
-        _currentLine+=2;
+    	 Scanner scan=new Scanner(System.in);
+         _currentLine++;
+         String newValue = "";
+         try{
+        	 newValue = scan.nextLine();
+             _dir=GetDir();
+             }
+         catch(Exception e){
+                 System.out.println(e.getMessage());
+         }
+         SetVariableValue(_dir,newValue);
+         _currentLine+=2;
     }
     public static void ReadVI(){
         Scanner scan=new Scanner(System.in);
+        int newValue = 0;
         _currentLine++;
         try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
+        	 newValue = Integer.parseInt(scan.nextLine());
+        	 _dir=GetDir();
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-        setVariableValue(""+(_dir+_index*4),scan.nextLine(),"0");
+        setVariableValue(_dir+_index*4,newValue);
         _currentLine+=2;
     }
     public static void ReadVD(){
-        Scanner scan=new Scanner(System.in);
-        _currentLine++;
-        try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        setVariableValue(""+(_dir+_index*8),scan.nextLine(),"2");
-        _currentLine+=2;
+    	 Scanner scan=new Scanner(System.in);
+         double newValue = 0;
+         _currentLine++;
+         try{
+        	 newValue = Double.parseDouble(scan.nextLine());
+         	 _dir=GetDir();
+         }
+         catch(Exception e){
+             System.out.println(e.getMessage());
+         }
+         setVariableValue(_dir+_index*8,newValue);
+         _currentLine+=2;
     }
     public static void ReadVF(){
-        Scanner scan=new Scanner(System.in);
-        _currentLine++;
-        try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        setVariableValue(""+(_dir+_index*4),scan.nextLine(),"1");
-        _currentLine+=2;
+    	 Scanner scan=new Scanner(System.in);
+         float newValue = 0;
+         _currentLine++;
+         try{
+        	 newValue = Float.parseFloat(scan.nextLine());
+         	 _dir=GetDir();
+         }
+         catch(Exception e){
+             System.out.println(e.getMessage());
+         }
+         setVariableValue(_dir+_index*4,newValue);
+         _currentLine+=2;
     }
     public static void ReadVC(){
-        Scanner scan=new Scanner(System.in);
-        _currentLine++;
-        try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        setVariableValue(""+(_dir+_index*1),scan.nextLine(),"3");
-        _currentLine+=2;
+    	 Scanner scan=new Scanner(System.in);
+         char newValue = ' ';
+         _currentLine++;
+         try{
+        	 newValue = scan.nextLine().charAt(0);
+         	 _dir=GetDir();
+         }
+         catch(Exception e){
+             System.out.println(e.getMessage());
+         }
+         setVariableValue(_dir+_index*1,newValue);
+         _currentLine+=2;
     }
     public static void ReadVS(){
-        Scanner scan=new Scanner(System.in);
-        _currentLine++;
-        try{
-            _dir=Integer.parseInt(_sc[_currentLine]);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        //Los strings cambian de tamano por eso se usa otro metodo
-        setVariableValueStringArray(scan.nextLine());
-        _currentLine+=2;
+    	 Scanner scan=new Scanner(System.in);
+         String newValue = "";
+         _currentLine++;
+         try{
+        	 newValue = scan.nextLine();
+         	 _dir=GetDir();
+         }
+         catch(Exception e){
+             System.out.println(e.getMessage());
+         }
+         setVariableValue(_dir+_index*255,newValue);
+         _currentLine+=2;
     }
     public static void setVariableValue(String dir, String newValue,String varType){ 
         boolean foundIt=false;
