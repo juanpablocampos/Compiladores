@@ -489,9 +489,9 @@ public class virtualMachine {
     public static void JMPF(){
         int flag;
         flag=_stack.POPI();
+        _currentLine++;
         
         if(flag==0){
-            _currentLine++;
             _currentLine = GetDir();
         }
         else
@@ -500,9 +500,9 @@ public class virtualMachine {
     public static void JMPT(){
         int flag;
         flag=_stack.POPI();
-        if(flag==1)
-        {
-            _currentLine++;
+        _currentLine++;
+
+        if(flag==1){
             _currentLine = GetDir();
         }
         else
