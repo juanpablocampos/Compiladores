@@ -1755,7 +1755,7 @@ public class virtualMachine {
     		if(i<stringLength)
     			_sd[dir+i]=CharToByte(value.charAt(i));
     		else
-    			_sd[dir+1]=CharToByte(_nullValue);
+    			_sd[dir+i]=CharToByte(_nullValue);
     	}
     }
 
