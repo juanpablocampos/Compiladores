@@ -1784,6 +1784,112 @@ public class virtualMachine {
     	segmentIn2Bytes[0]=(byte)((dir>>8) & 0xFF);
     	return segmentIn2Bytes;
     }
+    
+    public static int GetVariableValue(int dir, int dummyValue){
+    	byte[] intToConvert=new byte[4];
+    	intToConvert[0]=_sd[dir];
+    	intToConvert[1]=_sd[dir+1];
+    	intToConvert[2]=_sd[dir+2];
+    	intToConvert[3]=_sd[dir+3];
+    	return ByteArrayToInt(intToConvert);
+    }
+    public static float GetVariableValue(int dir, float dummyValue){
+    	byte[] floatToConvert=new byte[4];
+    	floatToConvert[0]=_sd[dir];
+    	floatToConvert[1]=_sd[dir+1];
+    	floatToConvert[2]=_sd[dir+2];
+    	floatToConvert[3]=_sd[dir+3];
+    	return ByteArrayToFloat(floatToConvert);
+    }
+    public static double GetVariableValue(int dir, double dummyValue){
+    	byte[] doubleToConvert=new byte[8];
+    	doubleToConvert[0]=_sd[dir];
+    	doubleToConvert[1]=_sd[dir+1];
+    	doubleToConvert[2]=_sd[dir+2];
+    	doubleToConvert[3]=_sd[dir+3];
+    	doubleToConvert[0]=_sd[dir+4];
+    	doubleToConvert[1]=_sd[dir+5];
+    	doubleToConvert[2]=_sd[dir+6];
+    	doubleToConvert[3]=_sd[dir+7];
+    	return ByteArrayToDouble(doubleToConvert);
+    }
+    public static char GetVariableValue(int dir, char dummyValue){
+    	return ByteToChar(_sd[dir]);
+    }
+    public static String GetVariableValue(int dir, String dummyValue){
+    	String stringToReturn="";
+    	//int stringLength=ByteToStringLength(_sc[_currentLine]);
+    	for(int i=0 ; ByteToChar(_sd[dir+i])!=_nullValue && i<255; i++){
+    		stringToReturn+=""+(ByteToChar(_sd[dir+i]));
+    	}
+    	return stringToReturn;
+    }
+
+    public static void SetVariableValue(int dir, int value){
+    	byte[] intToSet=IntToByteArray(value);
+    	for(int i=0;i<4;i++)
+    		_sd[dir+i]=intToSet[i];
+    }
+    public static void SetVariableValue(int dir, float value){
+    	byte[] floatToSet=FloatToByteArray(value);
+    	for(int i=0;i<4;i++)
+    		_sd[dir+i]=floatToSet[i];
+    }
+    public static void SetVariableValue(int dir, double value){
+    	byte[] doubleToSet=DoubleToByteArray(value);
+    	for(int i=0;i<8;i++)
+    		_sd[dir+i]=doubleToSet[i];
+    }
+    public static void SetVariableValue(int dir, char value){
+    	_sd[dir]=CharToByte(value);
+    }
+    public static void SetVariableValue(int dir, String value){
+    	int stringLength=value.length();
+    	for(int i=0 ; i<255 ; i++){
+    		if(i<stringLength)
+    			_sd[dir+i]=CharToByte(value.charAt(i));
+    		else
+    			_sd[dir+1]=CharToByte(_nullValue);
+    	}
+    }
+
+    public static int GetDir(){
+    	byte[] dirInByte = new byte[2];
+    	dirInByte[0]=_sc[_currentLine];
+    	dirInByte[1]=_sc[_currentLine+1];
+    	return ByteArrayToDir(dirInByte);
+    }
+    
+    public static int GetConstantValue(int dummyValue){
+    	byte[] intToConvert=new byte[4];
+    	for(int i=0;i<4;i++)
+    		intToConvert[i]=_sc[_currentLine+i];
+    	return ByteArrayToInt(intToConvert);
+    }
+    public static float GetConstantValue(float dummyValue){
+    	byte[] floatToConvert=new byte[4];
+    	for(int i=0;i<4;i++)
+    		floatToConvert[i]=_sc[_currentLine+i];
+    	return ByteArrayToInt(floatToConvert);
+    }
+    public static double GetConstantValue(double dummyValue){
+    	byte[] doubleToConvert=new byte[8];
+    	for(int i=0;i<8;i++)
+    		doubleToConvert[i]=_sc[_currentLine+i];
+    	return ByteArrayToInt(doubleToConvert);
+    }
+    public static char GetConstantValue(char dummyValue){
+    	return ByteToChar(_sc[_currentLine+i]);
+    } 
+    public static String GetConstantValue(String dummyValue){
+    	String stringToReturn="";
+    	int stringLength=ByteToStringLength(_sc[_currentLine]);
+    	for(int i=1 ; i<(stringLength+1) ; i++){
+    		stringToReturn+=""+(ByteToChar(_sc[_currentLine+i]));
+    	}
+    	return stringToReturn;
+    }
+
 
 }
 
