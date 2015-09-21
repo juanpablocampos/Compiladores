@@ -216,7 +216,7 @@ public class Assembler {
         archivoInstrucciones.close();
     }
     //VALIDAR        
-    public static boolean validate()
+     public static boolean validate()
 	{
 		//indice del token a validar
 		int index;
@@ -289,7 +289,7 @@ public class Assembler {
 							
 							words=isWord(part1);
 							
-							//Revisa si la parte 1 es numerica y la 2da son letras
+							//Revisa si la parte 1 son letras y la 2da son numeros
 							if(words && isNumeric(part2))
 							{
 								previousprevious=previous;
@@ -298,8 +298,8 @@ public class Assembler {
 							}else
 							{
 								words=isWord(part2);
-								//Revisa si la primera parte son Letras y la segunda son Numeros
-								if(isNumeric(part1)&&words)
+								//Revisa si la primera parte son numeros y la segunda son letras
+								if(isNumeric(part1) && words)
 								{
 									previousprevious=previous;
 									previous=1;
@@ -307,8 +307,17 @@ public class Assembler {
 								}
 								else
 								{
-									System.out.print("Error de Sintaxis en"+ tokens[index]);
-									return false;
+									if(isNumeric(part1))
+									{
+										previousprevious=previous;
+										previous=1;
+										actualtype=1;
+										
+									}else
+									{
+										System.out.print("Error de Sintaxis en"+ tokens[index]);
+										return false;
+									}
 								}
 							}
 							
@@ -403,8 +412,13 @@ public class Assembler {
 	if(token.equals( "DEFVI" )|| token.equals( "DEFVD" )|| token.equals( "DEFVF") || token.equals( "DEFVC" )|| token.equals( "DEFVS"))
 		return 7; // It's Instruction VK
 	
-	if(token.equals( "DEFS" )|| token.equals( "PUSHKS" )|| token.equals( "WRTM"))
+	if(token.equals( "DEFS" ))
 		return 8; //It's Instruction KV
+	
+	if( token.equals( "PUSHKS" )|| token.equals( "WRTM"))
+	{
+		return 9; //It's Instruction KK;
+	}
 	
 	return 1; //Its K or V
 
@@ -418,7 +432,7 @@ public class Assembler {
                 return false;
         
         if(actual==1)
-            if(previous==5 || previous==8 || (previous==2 && previousprevious == 7))
+            if(previous==5 || previous==8 || (previous==2 && previousprevious == 7) || (previous=1 && previousprevious== 9) )
                 return true;
             else
                 return false;
