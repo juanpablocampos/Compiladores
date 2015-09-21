@@ -2,6 +2,7 @@ package virtualMachine;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+//import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 public class virtualMachine {
@@ -20,7 +21,7 @@ public class virtualMachine {
     //Variable predefinida para comparar con valor NULL
     static char _nullValue='\u0000';
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         _currentLine = 0;
         _dir = 0;
         _index = 0;
@@ -30,7 +31,9 @@ public class virtualMachine {
     }
     public static void RunVirtualMachine(){
     	while(_currentLine <= _sc.length && ByteToInstruction(_sc[_currentLine])!=0){
-            switch(ByteToInstruction(_sc[_currentLine])){
+        	//System.out.println(ByteToInstruction(_sc[_currentLine]));
+
+    		switch(ByteToInstruction(_sc[_currentLine])){
                 case 1:
                     ReadI();
                     break;
@@ -299,7 +302,6 @@ public class virtualMachine {
     	_currentLine += 2;
     }
      public static void WRTM(){
-    	int longitud;
         String x="0";
     	_currentLine++;
     	x=GetConstantValue(x);
@@ -357,6 +359,7 @@ public class virtualMachine {
         }
         SetVariableValue(_dir,newValue);
         _currentLine+=2;
+        scan.close();
     }
     public static void ReadD() {
     	 Scanner scan=new Scanner(System.in);
@@ -371,6 +374,7 @@ public class virtualMachine {
          }
          SetVariableValue(_dir,newValue);
          _currentLine+=2;
+         scan.close();
     }
     public static void ReadF(){
     	 Scanner scan=new Scanner(System.in);
@@ -385,6 +389,7 @@ public class virtualMachine {
          }
          SetVariableValue(_dir,newValue);
          _currentLine+=2;
+         scan.close();
     }
     public static void ReadC() {
     	 Scanner scan=new Scanner(System.in);
@@ -399,6 +404,7 @@ public class virtualMachine {
          }
          SetVariableValue(_dir,newValue);
          _currentLine+=2;
+         scan.close();
     }
     public static void ReadS(){
     	 Scanner scan=new Scanner(System.in);
@@ -413,6 +419,7 @@ public class virtualMachine {
          }
          SetVariableValue(_dir,newValue);
          _currentLine+=2;
+         scan.close();
     }
     public static void ReadVI(){
         Scanner scan=new Scanner(System.in);
@@ -427,6 +434,7 @@ public class virtualMachine {
         }
         SetVariableValue(_dir+_index*4,newValue);
         _currentLine+=2;
+        scan.close();
     }
     public static void ReadVD(){
     	 Scanner scan=new Scanner(System.in);
@@ -441,6 +449,7 @@ public class virtualMachine {
          }
          SetVariableValue(_dir+_index*8,newValue);
          _currentLine+=2;
+         scan.close();
     }
     public static void ReadVF(){
     	 Scanner scan=new Scanner(System.in);
@@ -455,6 +464,7 @@ public class virtualMachine {
          }
          SetVariableValue(_dir+_index*4,newValue);
          _currentLine+=2;
+         scan.close();
     }
     public static void ReadVC(){
     	 Scanner scan=new Scanner(System.in);
@@ -469,6 +479,7 @@ public class virtualMachine {
          }
          SetVariableValue(_dir+_index*1,newValue);
          _currentLine+=2;
+         scan.close();
     }
     public static void ReadVS(){
     	 Scanner scan=new Scanner(System.in);
@@ -483,6 +494,7 @@ public class virtualMachine {
          }
          SetVariableValue(_dir+_index*255,newValue);
          _currentLine+=2;
+         scan.close();
     }
     
     public static void SETINDEX(){
@@ -616,82 +628,6 @@ public class virtualMachine {
         switch (type)
         {
             case 0:
-                if(_stack.POPI()<_stack.POPI())
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-                break;
-            case 1:
-                if(_stack.POPF()<_stack.POPF())
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-                break;
-            case 2:
-                if(_stack.POPD()<_stack.POPD())
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-                break;
-            case 3:
-                if(_stack.POPC()<_stack.POPC())
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-                break;
-            case 4:
-                if(0>((_stack.POPS().compareTo(_stack.POPS()))))
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-        }
-        _currentLine ++;
-    }
-    public static void CMPLE(){
-       int type=0;
-        type=_stack.getType();
-        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
-        switch (type)
-        {
-            case 0:
-                if(_stack.POPI()<=_stack.POPI())
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-                break;
-            case 1:
-                if(_stack.POPF()<=_stack.POPF())
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-                break;
-            case 2:
-                if(_stack.POPD()<=_stack.POPD())
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-                break;
-            case 3:
-                if(_stack.POPC()<=_stack.POPC())
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-                break;
-            case 4:
-                if(0<=((_stack.POPS().compareTo(_stack.POPS()))))
-                    _stack.PUSHI(1);
-                else
-                    _stack.PUSHI(0);
-        }
-        _currentLine ++;
-    }
-    public static void CMPGT(){
-        int type=0;
-        type=_stack.getType();
-        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
-        switch (type)
-        {
-            case 0:
                 if(_stack.POPI()>_stack.POPI())
                     _stack.PUSHI(1);
                 else
@@ -723,14 +659,14 @@ public class virtualMachine {
         }
         _currentLine ++;
     }
-    public static void CMPGE(){
-         int type=0;
+    public static void CMPLE(){
+       int type=0;
         type=_stack.getType();
         //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
         switch (type)
         {
             case 0:
-                if(_stack.POPI()>=_stack.POPI())
+                if(_stack.POPI() >= _stack.POPI())
                     _stack.PUSHI(1);
                 else
                     _stack.PUSHI(0);
@@ -755,6 +691,82 @@ public class virtualMachine {
                 break;
             case 4:
                 if(0>=((_stack.POPS().compareTo(_stack.POPS()))))
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+        }
+        _currentLine ++;
+    }
+    public static void CMPGT(){
+        int type=0;
+        type=_stack.getType();
+        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
+        switch (type)
+        {
+            case 0:
+                if(_stack.POPI()<_stack.POPI())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 1:
+                if(_stack.POPF()<_stack.POPF())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 2:
+                if(_stack.POPD()<_stack.POPD())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 3:
+                if(_stack.POPC()<_stack.POPC())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 4:
+                if(0<((_stack.POPS().compareTo(_stack.POPS()))))
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+        }
+        _currentLine ++;
+    }
+    public static void CMPGE(){
+         int type=0;
+        type=_stack.getType();
+        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
+        switch (type)
+        {
+            case 0:
+                if(_stack.POPI()<=_stack.POPI())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 1:
+                if(_stack.POPF()<=_stack.POPF())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 2:
+                if(_stack.POPD()<=_stack.POPD())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 3:
+                if(_stack.POPC()<=_stack.POPC())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 4:
+                if(0<=((_stack.POPS().compareTo(_stack.POPS()))))
                     _stack.PUSHI(1);
                 else
                     _stack.PUSHI(0);
@@ -1534,4 +1546,3 @@ public class virtualMachine {
 
 
 }
-
