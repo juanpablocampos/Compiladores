@@ -253,72 +253,95 @@ public class virtualMachine {
     }
     //Metodos
     public static void WRTI(){
-        varPrint();
+	int x=0;
+        varPrint(x);
     }
     public static void WRTD(){
-        varPrint();
+	int x=1;
+        varPrint(x);
     }
     public static void WRTF(){
-        varPrint();
+	int x=2;
+        varPrint(x);
     }
     public static void WRTC(){
-        varPrint();
+	int x=3;
+        varPrint(x);
     }
     public static void WRTS(){
-        varPrint();
+	int x=4;
+        varPrint(x);
     }
-    public static void varPrint(){
+    public static void varPrint(int x){
     	_currentLine++;
-    	_dir = Integer.parseInt(_sc[_currentLine]);
-    	System.out.print(GetVariableValue(String.valueOf(_dir)));
+        double a=0;
+        char b='0';
+        float c=0f;
+        String d="0";
+        switch (x)
+        {
+            case 0:
+                System.out.println(GetVariableValue(_dir, x));
+                break;
+            case 1:
+                System.out.println(GetVariableValue(_dir, a));
+                break;
+            case 2:
+                System.out.println(GetVariableValue(_dir, c));
+                break;
+            case 3:
+                System.out.println(GetVariableValue(_dir, b));
+                break;
+            case 4:
+                System.out.println(GetVariableValue(_dir, d));
+                break;
+        }
     	_currentLine += 2;
     }
-    public static void WRTM(){
+     public static void WRTM(){
     	int longitud;
+        String x="0";
     	_currentLine++;
-    	longitud = Integer.parseInt(_sc[_currentLine]);
-    	_currentLine++;
-    	System.out.print(GetVariableValue(String.valueOf(_dir)));
-    	_currentLine += longitud;
+    	x=GetConstantValue(x);
+    	_currentLine += x.length()+1;
     }
     public static void WRTLN(){
+        _currentLine++;
     	System.out.println("");
     }
     public static void WRTVI(){
     	_currentLine++;
-    	_dir = Integer.parseInt(_sc[_currentLine]);
-    	System.out.print(GetVariableValue(String.valueOf(_dir+_index*4)));
+        int x=0;
+    	_dir = GetDir();
+    	System.out.print(GetVariableValue(_dir+_index*4, x));
     	_currentLine += 2;
     }
     public static void WRTVD(){
     	_currentLine++;
-    	_dir = Integer.parseInt(_sc[_currentLine]);
-    	System.out.print(GetVariableValue(String.valueOf(_dir+_index*8)));
+        double x=0;
+    	_dir = GetDir();
+    	System.out.print(GetVariableValue(_dir+_index*8,x));
     	_currentLine += 2;
     }
     public static void WRTVF(){
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        System.out.print(GetVariableValue(String.valueOf(_dir+_index*4)));
+        float x=0f;
+        _dir = GetDir();
+        System.out.print(GetVariableValue(_dir+_index*4, x));
         _currentLine +=2 ;
     }
     public static void WRTVC(){
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        System.out.print(GetVariableValue(String.valueOf(_dir+_index)));
-        _currentLine += 2;
+        char x='0';
+        _dir = GetDir();
+        System.out.print(GetVariableValue(_dir+_index, x));
+        _currentLine++;
     }
     public static void WRTVS(){
-        String StringValue;
-        
+        String StringValue="0";
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        StringValue=GetStringValue();
-        if(StringValue.equals("-1"))
-        {
-                return;
-        }
-        System.out.print(StringValue);
+        _dir = GetDir();
+        StringValue=GetVariableValue(_dir+(255*_index),StringValue);
         _currentLine += 2;
     }
     public static void ReadI() {
@@ -464,13 +487,15 @@ public class virtualMachine {
     
     public static void SETINDEX(){
         _currentLine++;
-        _dir=Integer.parseInt(_sc[_currentLine]);
-        _index=Integer.parseInt(getVariableValue(_sc[_currentLine]));
+        int x=0;
+        _dir=GetDir();
+        _index=GetVariableValue(_dir,x);
         _currentLine+=2;
     }
     public static void SETINDEXK(){
         _currentLine++;
-        _index=Integer.parseInt(_sc[_currentLine]);
+        int x=0;
+        _index=GetConstantValue(x);
         _currentLine+=2;
     }
     public static void POPINDEX(){
@@ -508,521 +533,232 @@ public class virtualMachine {
         else
             _currentLine+=2;
     }
-    public static void CMPEQ(){
-        double var1, var2 = 0;
-        int result=0;
-        String varString1, varString2, resultString;
-
-        //Entero
-        if (_stack.getType() == 0){
-            var1 = _stack.POPD();
-            varString1 = "";
-        }
-        else{
-        //float
-            if (_stack.getType() == 1){
-                var1 = _stack.POPD();
-                varString1 = "";
-            }
-            else{
-                //double
-                if (_stack.getType() == 2){
-                    var1 = _stack.POPD();
-                    varString1 = "";
-                }
-                else{
-                    //String
-                    if (_stack.getType() == 4){
-                        varString1 = _stack.POPS();
-                        var1 = 0;
-                    }
-                    else{
-                        var1 = 0;
-                        varString1 = "";
-                    }
-                }
-            }
-        }
-
-        //Entero
-        if (_stack.getType() == 0){
-            var2 = _stack.POPD();
-            if(var1==var2)
-            	result = 1;
-            else
-            	result=0;
-            _stack.PUSHI((int)result);
-            resultString = "";
-        }
-        else{
-        //float
-            if (_stack.getType() == 1){
-            	if(var1==var2)
-            		result = 1;
-            	else
-            		result=0;
-            	_stack.PUSHI((int)result);
-                resultString = "";
-            }
-            else{
-                //double
-                if (_stack.getType() == 2){
-            		if(var1==var2)
-            			result = 1;
-            		else
-            			result=0;
-            			_stack.PUSHI((int)result);
-            	        resultString = "";
-                }
-                else{
-                    //String
-                    if (_stack.getType() == 4){
-                        varString2 = _stack.POPS();
-                        varString2 = _stack.POPS();
-                        if(varString1.equals(varString2))
-                        	result =1;
-                        	else
-                        	result=0;
-
-						_stack.PUSHI((int)result);
-                    }
-                    else{
-                        result = 0;
-                        resultString = "";
-                    }
-                }
-            }
+      public static void CMPEQ(){
+        int type=0;
+        type=_stack.getType();
+        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
+        switch (type)
+        {
+            case 0:
+                if(_stack.POPI()==_stack.POPI())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 1:
+                if(_stack.POPF()==_stack.POPF())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 2:
+                if(_stack.POPD()==_stack.POPD())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 3:
+                if(_stack.POPC()==_stack.POPC())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 4:
+                if((_stack.POPS()).equals(_stack.POPS()))
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
         }
         _currentLine ++;
     }
     public static void CMPNE(){
-       double var1, var2 = 0, result;
-        String varString1, varString2, resultString;
-
-        //Entero
-        if (_stack.getType() == 0){
-            var1 = _stack.POPD();
-            varString1 = "";
-        }
-        else{
-        //float
-            if (_stack.getType() == 1){
-                var1 = _stack.POPD();
-                varString1 = "";
-            }
-            else{
-                //double
-                if (_stack.getType() == 2){
-                    var1 = _stack.POPD();
-                    varString1 = "";
-                }
-                else{
-                    //String
-                    if (_stack.getType() == 4){
-                        varString1 = _stack.POPS();
-                        var1 = 0;
-                    }
-                    else{
-                        var1 = 0;
-                        varString1 = "";
-                    }
-                }
-            }
-        }
-
-        //Entero
-        if (_stack.getType() == 0){
-            var2 = _stack.POPD();
-            if(var1!=var2)
-            	result = 1;
-            else
-            	result=0;
-            _stack.PUSHI((int)result);
-            resultString = "";
-        }
-        else{
-        //float
-            if (_stack.getType() == 1){
-            	if(var1!=var2)
-            		result = 1;
-            	else
-            		result=0;
-            	_stack.PUSHI((int)result);
-                resultString = "";
-            }
-            else{
-                //double
-                if (_stack.getType() == 2){
-            		if(var1!=var2)
-            			result = 1;
-            		else
-            			result=0;
-            			_stack.PUSHI((int)result);
-            	        resultString = "";
-                }
-                else{
-                    //String
-                    if (_stack.getType() == 4){
-                        varString2 = _stack.POPS();
-                        if(!varString1.equals(varString2))
-                        	result =1;
-                        	else
-                        	result=0;
-
-						_stack.PUSHI((int)result);
-
-                    }
-                    else{
-                        result = 0;
-                        resultString = "";
-                    }
-                }
-            }
+       int type=0;
+        type=_stack.getType();
+        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
+        switch (type)
+        {
+            case 0:
+                if(_stack.POPI()!=_stack.POPI())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 1:
+                if(_stack.POPF()!=_stack.POPF())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 2:
+                if(_stack.POPD()!=_stack.POPD())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 3:
+                if(_stack.POPC()!=_stack.POPC())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 4:
+                if(!(_stack.POPS()).equals(_stack.POPS()))
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
         }
         _currentLine ++;
     }
     public static void CMPLT(){
-        double var1, var2 = 0, result;
-         String varString1, varString2, resultString;
-
-         //Entero
-         if (_stack.getType() == 0){
-             var1 = _stack.POPD();
-             varString1 = "";
-         }
-         else{
-         //float
-             if (_stack.getType() == 1){
-                 var1 = _stack.POPD();
-                 varString1 = "";
-             }
-             else{
-                 //double
-                 if (_stack.getType() == 2){
-                     var1 = _stack.POPD();
-                     varString1 = "";
-                 }
-                 else{
-                     //String
-                     if (_stack.getType() == 4){
-                         varString1 = _stack.POPS();
-                         var1 = 0;
-                     }
-                     else{
-                         var1 = 0;
-                         varString1 = "";
-                     }
-                 }
-             }
-         }
-
-         //Entero
-         if (_stack.getType() == 0){
-             var2 = _stack.POPD();
-             if(var1<var2)
-             	result = 1;
-             else
-             	result=0;
-             _stack.PUSHI((int)result);
-             resultString = "";
-         }
-         else{
-         //float
-             if (_stack.getType() == 1){
-             	if(var1<var2)
-             		result = 1;
-             	else
-             		result=0;
-             	_stack.PUSHI((int)result);
-                 resultString = "";
-             }
-             else{
-                 //double
-                 if (_stack.getType() == 2){
-             		if(var1<var2)
-             			result = 1;
-             		else
-             			result=0;
-             			_stack.PUSHI((int)result);
-             	        resultString = "";
-                 }
-                 else{
-                     //String
-                     if (_stack.getType() == 4){
-                         varString2 = _stack.POPS();
-                         if(varString1.compareTo(varString2)<0)
-                         	result =1;
-                         	else
-                         	result=0;
-
- 						_stack.PUSHI((int)result);
-
-                     }
-                     else{
-                         result = 0;
-                         resultString = "";
-                     }
-                 }
-             }
-         }
+        int type=0;
+        type=_stack.getType();
+        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
+        switch (type)
+        {
+            case 0:
+                if(_stack.POPI()<_stack.POPI())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 1:
+                if(_stack.POPF()<_stack.POPF())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 2:
+                if(_stack.POPD()<_stack.POPD())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 3:
+                if(_stack.POPC()<_stack.POPC())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 4:
+                if(0>((_stack.POPS().compareTo(_stack.POPS()))))
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+        }
         _currentLine ++;
     }
     public static void CMPLE(){
-        double var1, var2 = 0, result;
-         String varString1, varString2, resultString;
-
-         //Entero
-         if (_stack.getType() == 0){
-             var1 = _stack.POPD();
-             varString1 = "";
-         }
-         else{
-         //float
-             if (_stack.getType() == 1){
-                 var1 = _stack.POPD();
-                 varString1 = "";
-             }
-             else{
-                 //double
-                 if (_stack.getType() == 2){
-                     var1 = _stack.POPD();
-                     varString1 = "";
-                 }
-                 else{
-                     //String
-                     if (_stack.getType() == 4){
-                         varString1 = _stack.POPS();
-                         var1 = 0;
-                     }
-                     else{
-                         var1 = 0;
-                         varString1 = "";
-                     }
-                 }
-             }
-         }
-
-         //Entero
-         if (_stack.getType() == 0){
-             var2 = _stack.POPD();
-             if(var1<=var2)
-             	result = 1;
-             else
-             	result=0;
-             _stack.PUSHI((int)result);
-             resultString = "";
-         }
-         else{
-         //float
-             if (_stack.getType() == 1){
-             	if(var1<=var2)
-             		result = 1;
-             	else
-             		result=0;
-             	_stack.PUSHI((int)result);
-                 resultString = "";
-             }
-             else{
-                 //double
-                 if (_stack.getType() == 2){
-             		if(var1<=var2)
-             			result = 1;
-             		else
-             			result=0;
-             			_stack.PUSHI((int)result);
-             	        resultString = "";
-                 }
-                 else{
-                     //String
-                     if (_stack.getType() == 4){
-                         varString2 = _stack.POPS();
-                         if(varString1.compareTo(varString2)<=0)
-                         	result =1;
-                         	else
-                         	result=0;
-
- 						_stack.PUSHI((int)result);
-
-                     }
-                     else{
-                         result = 0;
-                         resultString = "";
-                     }
-                 }
-             }
-         }
+       int type=0;
+        type=_stack.getType();
+        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
+        switch (type)
+        {
+            case 0:
+                if(_stack.POPI()<=_stack.POPI())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 1:
+                if(_stack.POPF()<=_stack.POPF())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 2:
+                if(_stack.POPD()<=_stack.POPD())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 3:
+                if(_stack.POPC()<=_stack.POPC())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 4:
+                if(0<=((_stack.POPS().compareTo(_stack.POPS()))))
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+        }
         _currentLine ++;
     }
     public static void CMPGT(){
-        double var1, var2 = 0, result;
-         String varString1, varString2, resultString;
-
-         //Entero
-         if (_stack.getType() == 0){
-             var1 = _stack.POPD();
-             varString1 = "";
-         }
-         else{
-         //float
-             if (_stack.getType() == 1){
-                 var1 = _stack.POPD();
-                 varString1 = "";
-             }
-             else{
-                 //double
-                 if (_stack.getType() == 2){
-                     var1 = _stack.POPD();
-                     varString1 = "";
-                 }
-                 else{
-                     //String
-                     if (_stack.getType() == 4){
-                         varString1 = _stack.POPS();
-                         var1 = 0;
-                     }
-                     else{
-                         var1 = 0;
-                         varString1 = "";
-                     }
-                 }
-             }
-         }
-
-         //Entero
-         if (_stack.getType() == 0){
-             var2 = _stack.POPD();
-             if(var1>var2)
-             	result = 1;
-             else
-             	result=0;
-             _stack.PUSHI((int)result);
-             resultString = "";
-         }
-         else{
-         //float
-             if (_stack.getType() == 1){
-             	if(var1>var2)
-             		result = 1;
-             	else
-             		result=0;
-             	_stack.PUSHI((int)result);
-                 resultString = "";
-             }
-             else{
-                 //double
-                 if (_stack.getType() == 2){
-             		if(var1>var2)
-             			result = 1;
-             		else
-             			result=0;
-             			_stack.PUSHI((int)result);
-             	        resultString = "";
-                 }
-                 else{
-                     //String
-                     if (_stack.getType() == 4){
-                         varString2 = _stack.POPS();
-                         if(varString1.compareTo(varString2)>0)
-                         	result =1;
-                         	else
-                         	result=0;
-
- 						_stack.PUSHI((int)result);
-
-                     }
-                     else{
-                         result = 0;
-                         resultString = "";
-                     }
-                 }
-             }
-         }
+        int type=0;
+        type=_stack.getType();
+        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
+        switch (type)
+        {
+            case 0:
+                if(_stack.POPI()>_stack.POPI())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 1:
+                if(_stack.POPF()>_stack.POPF())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 2:
+                if(_stack.POPD()>_stack.POPD())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 3:
+                if(_stack.POPC()>_stack.POPC())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 4:
+                if(0>((_stack.POPS().compareTo(_stack.POPS()))))
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+        }
         _currentLine ++;
     }
     public static void CMPGE(){
-         double var1, var2 = 0, result;
-          String varString1, varString2, resultString;
-
-          //Entero
-          if (_stack.getType() == 0){
-              var1 = _stack.POPD();
-              varString1 = "";
-          }
-          else{
-          //float
-              if (_stack.getType() == 1){
-                  var1 = _stack.POPD();
-                  varString1 = "";
-              }
-              else{
-                  //double
-                  if (_stack.getType() == 2){
-                      var1 = _stack.POPD();
-                      varString1 = "";
-                  }
-                  else{
-                      //String
-                      if (_stack.getType() == 4){
-                          varString1 = _stack.POPS();
-                          var1 = 0;
-                      }
-                      else{
-                          var1 = 0;
-                          varString1 = "";
-                      }
-                  }
-              }
-          }
-
-          //Entero
-          if (_stack.getType() == 0){
-              var2 = _stack.POPD();
-              if(var1>=var2)
-              	result = 1;
-              else
-              	result=0;
-              _stack.PUSHI((int)result);
-              resultString = "";
-          }
-          else{
-          //float
-              if (_stack.getType() == 1){
-              	if(var1>=var2)
-              		result = 1;
-              	else
-              		result=0;
-              	_stack.PUSHI((int)result);
-                  resultString = "";
-              }
-              else{
-                  //double
-                  if (_stack.getType() == 2){
-              		if(var1>=var2)
-              			result = 1;
-              		else
-              			result=0;
-              			_stack.PUSHI((int)result);
-              	        resultString = "";
-                  }
-                  else{
-                      //String
-                      if (_stack.getType() == 4){
-                          varString2 = _stack.POPS();
-                          if(varString1.compareTo(varString2)>=0)
-                          	result =1;
-                          	else
-                          	result=0;
-
-  						_stack.PUSHI((int)result);
-
-                      }
-                      else{
-                          result = 0;
-                          resultString = "";
-                      }
-                  }
-              }
-          }
+         int type=0;
+        type=_stack.getType();
+        //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
+        switch (type)
+        {
+            case 0:
+                if(_stack.POPI()>=_stack.POPI())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 1:
+                if(_stack.POPF()>=_stack.POPF())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 2:
+                if(_stack.POPD()>=_stack.POPD())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 3:
+                if(_stack.POPC()>=_stack.POPC())
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+                break;
+            case 4:
+                if(0>=((_stack.POPS().compareTo(_stack.POPS()))))
+                    _stack.PUSHI(1);
+                else
+                    _stack.PUSHI(0);
+        }
         _currentLine ++;
     }
     
