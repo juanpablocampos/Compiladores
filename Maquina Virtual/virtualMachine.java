@@ -400,7 +400,7 @@ public class virtualMachine {
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-        setVariableValue(_dir+_index*4,newValue);
+        SetVariableValue(_dir+_index*4,newValue);
         _currentLine+=2;
     }
     public static void ReadVD(){
@@ -414,7 +414,7 @@ public class virtualMachine {
          catch(Exception e){
              System.out.println(e.getMessage());
          }
-         setVariableValue(_dir+_index*8,newValue);
+         SetVariableValue(_dir+_index*8,newValue);
          _currentLine+=2;
     }
     public static void ReadVF(){
@@ -428,7 +428,7 @@ public class virtualMachine {
          catch(Exception e){
              System.out.println(e.getMessage());
          }
-         setVariableValue(_dir+_index*4,newValue);
+         SetVariableValue(_dir+_index*4,newValue);
          _currentLine+=2;
     }
     public static void ReadVC(){
@@ -442,7 +442,7 @@ public class virtualMachine {
          catch(Exception e){
              System.out.println(e.getMessage());
          }
-         setVariableValue(_dir+_index*1,newValue);
+         SetVariableValue(_dir+_index*1,newValue);
          _currentLine+=2;
     }
     public static void ReadVS(){
@@ -456,45 +456,10 @@ public class virtualMachine {
          catch(Exception e){
              System.out.println(e.getMessage());
          }
-         setVariableValue(_dir+_index*255,newValue);
+         SetVariableValue(_dir+_index*255,newValue);
          _currentLine+=2;
     }
-    public static void setVariableValue(String dir, String newValue,String varType){ 
-        boolean foundIt=false;
-        for (String[] _sd1 : _sd) {
-            //Busca una direccion en la tabla de variables y le asigna un nuevo valor
-            if (_sd1[2].equals(dir)) {
-                foundIt=true;
-                if (_sd1[3].equals(varType)) {
-                    _sd1[1] = newValue;
-                } else {
-                    System.out.println("HORROR, no son tipos de datos compatibles");
-                }   
-            }
-        }
-        if(!foundIt)
-            System.out.println("HORROR, no se encuentra la direccion en la tabla de datos");
-    }
-    public static void setVariableValueStringArray(String newValue){ 
-        boolean foundIt = false;
-        for(int i=0;i<_sd.length;i++){
-            //Busca una direccion en la tabla de variables y le asigna un nuevo valor, el string cambia de tamano asi que es diferente
-            if(_sd[i][2].equals(_dir+"")){
-                foundIt=true;
-                if(_sd[i][3].equals("4")){
-                    //Como no sabemos el tamano del string, encontramos el vector[0] y le sumamos (index) renglones para encontrar la casilla correcta
-                    if(i+_index<_sd.length)
-                    _sd[i+_index][1]=newValue;
-                    else
-                    System.out.println("HORROR, index+_dir se sale del SD (el arreglo no es tan grande)");
-                }
-                else
-                    System.out.println("HORROR, no son tipos de datos compatibles");
-            }   
-        }
-        if(!foundIt)
-            System.out.println("HORROR, no se encuentra la direccion en la tabla de datos");
-    }
+    
     public static void SETINDEX(){
         _currentLine++;
         _dir=Integer.parseInt(_sc[_currentLine]);
@@ -1097,6 +1062,7 @@ public class virtualMachine {
         _currentLine = _currentLine + 2;
     }
     public static void PUSHD(){
+        Double valueDouble=0.0;
         _currentLine++;
         _dir = GetDir();
         valueDouble = GetVariableValue(_dir, valueDouble);
@@ -1104,7 +1070,7 @@ public class virtualMachine {
         _currentLine = _currentLine + 2;
     }
     public static void PUSHC(){
-        char valueChar='';
+        char valueChar=' ';
         _currentLine++;
         _dir = GetDir();
         valueChar = GetVariableValue(_dir, valueChar);       
@@ -1130,7 +1096,7 @@ public class virtualMachine {
     public static void PUSHKI(){
         //Cambiar la logica de las constantes
         //Tomar el valor directamente del vector _sc
-        int valueKInt;
+        int valueKInt=0;
         _currentLine++;
         valueKInt = GetConstantValue(valueKInt);
         _stack.PUSHI(valueKInt);
