@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.nio.*;
 
-public class Assembler {
+public class assembler {
 	
     static String[] tokens;
     static String[] KWA;
@@ -75,7 +75,7 @@ public class Assembler {
         //instruccion actual
         String inst="";
         int contador=0;
-int cont=0;
+
         while(sc.hasNext()){
             inst=sc.next();
             if(inst.charAt(0)!=';')
@@ -84,7 +84,7 @@ int cont=0;
                 tokens=agrandarVector(tokens,3);
                 tokens[contador]=inst;
                 contador++;
-                System.out.println(inst+cont++);
+                System.out.println(inst);
                 inst=sc.next();
                 tokens[contador]=inst;
                 contador++;
@@ -103,11 +103,14 @@ int cont=0;
                 else{
                     //instruccion corta
                     if(validarInstruccion(inst)==3){
+                        
                         tokens=agrandarVector(tokens,2);
+
                         tokens[contador]=inst;
                         contador++;
                         tokens[contador]="";
-                    contador++;
+                        contador++;
+                       
                     }
                     else{
                         //etiqueta
@@ -136,7 +139,7 @@ int cont=0;
             return 2;
         while(indexInstr < 75){
             if(instructions[indexInstr].equals(inst)){
-                if(indexInstr == 17 || (indexInstr >= 51 && indexInstr <= 56) 
+                if(indexInstr==0||indexInstr == 17 || (indexInstr >= 51 && indexInstr <= 56) 
                     || (indexInstr >= 60 && indexInstr <= 64))
                     //es ADD, COMP, WRTLN (los de 1)
                     return 3; 
@@ -285,6 +288,7 @@ int cont=0;
 			if(!Validate)
 			{
 				System.out.println("Sequence Error "+tokens[index]);
+                                System.out.println(""+index);
 				return false;
 				
 				
@@ -296,7 +300,8 @@ int cont=0;
 			}
 		}
 		
-		return true;
+		
+                return true;
 		
 	}
 	//Checa si el String es totalmente numerico
