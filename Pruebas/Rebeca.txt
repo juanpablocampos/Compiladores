@@ -1,3 +1,7 @@
 rebeca hernandez arellano
+<<<<<<< HEAD
 
 la rebeca esta bien tontita :)
+=======
+amaaaaaaaaaaaaaaa
+>>>>>>> origin/master
