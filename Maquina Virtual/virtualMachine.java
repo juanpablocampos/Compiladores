@@ -1070,87 +1070,80 @@ public class virtualMachine {
         return "-1";
     }
     public static void PUSHI(){
-        int valueInt;
+        int valueInt=0;
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueInt = Integer.parseInt(getVariableValue(String.valueOf(_dir)));
+        _dir = GetDir();
+        valueInt = GetVariableValue(_dir, valueInt);
         _stack.PUSHI(valueInt);
-        _currentLine = _currentLine + 3;
+        _currentLine = _currentLine + 2;
     }
     public static void PUSHD(){
-        double valueDouble;
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueDouble = Double.parseDouble(getVariableValue(String.valueOf(_dir)));
+        _dir = GetDir();
+        valueDouble = GetVariableValue(_dir, valueDouble);
         _stack.PUSHD(valueDouble);
-        _currentLine = _currentLine + 7;
+        _currentLine = _currentLine + 2;
     }
     public static void PUSHC(){
-        char valueChar;
+        char valueChar='';
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueChar = getVariableValue(String.valueOf(_dir)).charAt(0);        
+        _dir = GetDir();
+        valueChar = GetVariableValue(_dir, valueChar);       
         _stack.PUSHC(valueChar);
-        _currentLine = _currentLine + 1;
+        _currentLine = _currentLine + 2;
     }
     public static void PUSHF(){
-        float valueFloat;
+        float valueFloat=0.0f;
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueFloat =Float.parseFloat(getVariableValue(String.valueOf(_dir)));       
+        _dir = GetDir();
+        valueFloat = GetVariableValue(_dir, valueFloat);       
         _stack.PUSHF(valueFloat);
-        _currentLine = _currentLine + 3;
+        _currentLine = _currentLine + 2;
     }
     public static void PUSHS(){
-        String valueString;
+       String valueString = "";
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueString =getVariableValue(String.valueOf(_dir));       
+        _dir = GetDir();
+        valueString =GetVariableValue(_dir, valueString);       
         _stack.PUSHS(valueString);
-        _currentLine = _currentLine + 3;
+        _currentLine = _currentLine + 2;
     }
     public static void PUSHKI(){
         //Cambiar la logica de las constantes
         //Tomar el valor directamente del vector _sc
         int valueKInt;
         _currentLine++;
-        valueKInt = Integer.parseInt(_sc[_currentLine]);
-        //valueKInt = Integer.parseInt(_sc[_currentLine]);
+        valueKInt = GetConstantValue(valueKInt);
         _stack.PUSHI(valueKInt);
-        _currentLine = _currentLine + 3;
+        _currentLine = _currentLine + 4;
     }
     public static void PUSHKF(){
-        float valueFloat;
+        float valueFloat=0.0f;
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueFloat =Float.parseFloat(getVariableValue(String.valueOf(_dir)));
+        valueFloat = GetConstantValue(valueFloat);
         _stack.PUSHF(valueFloat);
-        _currentLine = _currentLine + 3;
+        _currentLine = _currentLine + 4;
     }
     public static void PUSHKD(){
-        double valueDouble;
+        double valueDouble=0;
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueDouble = Double.parseDouble(getVariableValue(String.valueOf(_dir)));
+        valueDouble = GetConstantValue(valueDouble);
         _stack.PUSHD(valueDouble);
-        _currentLine = _currentLine + 7;
+        _currentLine = _currentLine + 8;
     }
     public static void PUSHKC(){
-        char valueChar;
+        char valueChar = '0';
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueChar = getVariableValue(String.valueOf(_dir)).charAt(0);
+        valueChar = GetConstantValue(valueChar);
         _stack.PUSHC(valueChar);
         _currentLine = _currentLine + 1;
     }
     public static void PUSHKS(){
-        String valueString;
+        char valueChar = '0';
         _currentLine++;
-        _dir = Integer.parseInt(_sc[_currentLine]);
-        valueString = getVariableValue(String.valueOf(_dir));
-        _stack.PUSHS(valueString);
-        int longValueString = valueString.length();
-        _currentLine = longValueString + 2;
+        valueChar = GetConstantValue(valueChar);
+        _stack.PUSHC(valueChar);
+        _currentLine = _currentLine + 1;
     }   
     public static void PUSHVI(){
         int valueInt = 0;
