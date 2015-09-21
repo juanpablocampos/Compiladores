@@ -163,7 +163,7 @@ public class assembler {
 
                                     tokens[contador]=stringmessage.length()+","+stringmessage;
                                     contador++;
-                                    tokens[contador]=" ";
+                                    tokens[contador]="";
                                     contador++;
                                 }
                                 else
@@ -188,7 +188,7 @@ public class assembler {
             return 2;
         while(indexInstr < 75){
             if(instructions[indexInstr].equals(inst)){
-                if(indexInstr==0||indexInstr == 17 || (indexInstr >= 51 && indexInstr <= 56) 
+                if(indexInstr==0||indexInstr == 25 || indexInstr == 17 || (indexInstr >= 51 && indexInstr <= 56) 
                     || (indexInstr >= 60 && indexInstr <= 64))
                     //es ADD, COMP, WRTLN (los de 1)
                     return 3; 
