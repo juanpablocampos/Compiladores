@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.nio.*;
 
-public class Assembler {
+public class assembler {
 	
     static String[] tokens;
     static String[] KWA;
@@ -82,94 +82,100 @@ public class Assembler {
         while(sc.hasNext()){
             inst=sc.next();
             if(inst.charAt(0)!=';')
-            //instruccion normal
-            if(validarInstruccion(inst)==1){ 
-                tokens=agrandarVector(tokens,3);
-                tokens[contador]=inst;
-                contador++;
-                System.out.println(inst);
-                inst=sc.next();
-                tokens[contador]=inst;
-                contador++;
-                tokens[contador]="";
-                contador++;
-            }
-            else{
-                //error o constante
-                if(validarInstruccion(inst)==0){ 
-                    tokens=agrandarVector(tokens,2);
+            {
+                //instruccion normal
+                if(validarInstruccion(inst)==1){ 
+                    tokens=agrandarVector(tokens,3);
+                    tokens[contador]=inst;
+                    contador++;
+                    System.out.println(inst);
+                    inst=sc.next();
                     tokens[contador]=inst;
                     contador++;
                     tokens[contador]="";
                     contador++;
                 }
                 else{
-                    //instruccion corta
-                    if(validarInstruccion(inst)==3){
-                        
+                    //error o constante
+                    if(validarInstruccion(inst)==0){ 
                         tokens=agrandarVector(tokens,2);
-
                         tokens[contador]=inst;
                         contador++;
                         tokens[contador]="";
                         contador++;
-                       
                     }
                     else{
-                        //etiqueta
-                        if(validarInstruccion(inst)==2){ 
+                        //instruccion corta
+                        if(validarInstruccion(inst)==3){
+
                             tokens=agrandarVector(tokens,2);
+
                             tokens[contador]=inst;
                             contador++;
-                            inst=sc.next();
-                            tokens[contador]=inst;
-                            contador++;                          
+                            tokens[contador]="";
+                            contador++;
+
                         }
-                        else
-                        {
-                            if(validarInstruccion(inst)==4)
-                            {
-                                tokens=agrandarVector(tokens,3);
+                        else{
+                            //etiqueta
+                            if(validarInstruccion(inst)==2){ 
+                                tokens=agrandarVector(tokens,2);
                                 tokens[contador]=inst;
                                 contador++;
-                                inst=sc.nextLine();
-
-                                int i=0;
-                                //sacar el tamaño enviado
-                                while(inst.charAt(++i)!=',')
-                                {
-                                        stringnumber+=inst.charAt(i)+"";
-                                }
-                                stringintnum=Integer.parseInt(stringnumber);
-
-                                //sacar el string enviado y su tamaño
-                                while(++i<inst.length())
-                                {
-                                        stringmessage+=inst.charAt(i)+"";
-                                        stringsentsize++;
-                                }
-
-                                if(stringintnum<stringsentsize){
-                                        String shorterString="";
-                                        for(int x=0;x<stringintnum;x++)
-                                                shorterString+=stringmessage.charAt(x)+"";
-                                        stringmessage=shorterString;
-                                }
-                                //si el tamaño enviado es mayor al atmaño del String
-                                        while(stringmessage.length()<stringintnum){
-                                                stringmessage+=" ";
-                                        }
-
-                                tokens[contador]=stringmessage.length()+","+stringmessage;
-                                contador++;
-                                tokens[contador]=" ";
-                                contador++;
+                                inst=sc.next();
+                                tokens[contador]=inst;
+                                contador++;                          
                             }
                             else
-                            sc.nextLine();
+                            {
+                                if(validarInstruccion(inst)==4)
+                                {
+                                    tokens=agrandarVector(tokens,3);
+                                    tokens[contador]=inst;
+                                    contador++;
+                                    inst=sc.nextLine();
+
+                                    int i=0;
+                                    //sacar el tamaño enviado
+                                    while(inst.charAt(++i)!=',')
+                                    {
+                                            stringnumber+=inst.charAt(i)+"";
+                                    }
+                                    stringintnum=Integer.parseInt(stringnumber);
+
+                                    //sacar el string enviado y su tamaño
+                                    while(++i<inst.length())
+                                    {
+                                            stringmessage+=inst.charAt(i)+"";
+                                            stringsentsize++;
+                                    }
+
+                                    if(stringintnum<stringsentsize){
+                                            String shorterString="";
+                                            for(int x=0;x<stringintnum;x++)
+                                                    shorterString+=stringmessage.charAt(x)+"";
+                                            stringmessage=shorterString;
+                                    }
+                                    //si el tamaño enviado es mayor al atmaño del String
+                                            while(stringmessage.length()<stringintnum){
+                                                    stringmessage+=" ";
+                                            }
+
+                                    tokens[contador]=stringmessage.length()+","+stringmessage;
+                                    contador++;
+                                    tokens[contador]=" ";
+                                    contador++;
+                                }
+                                else
+                                sc.nextLine();
+                            }
                         }
                     }
                 }
+            }
+            else
+            {
+                sc.nextLine();
             }
         }
         sc.close();
