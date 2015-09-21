@@ -448,7 +448,7 @@ public class assembler {
         else return false;
     }
 	//RESOLVER
-    public static boolean assemblyToKWA(){
+   public static boolean assemblyToKWA(){
         int tokenPos=0;  
         int tagDir=0; 
         int variableDir=0;
@@ -502,9 +502,10 @@ public class assembler {
 	                        tokenPos++;
                     	}
                     	else{
-                    		for(int c=0;c<Integer.parseInt(tokens[tokenPos].substring(tokens[tokenPos].indexOf(','),0));c++){
+                    		for(int c=0;c<Integer.parseInt(tokens[tokenPos].substring(tokens[tokenPos].indexOf(',')+1,tokens[tokenPos].length()));c++){
                     			createVariable(tokens[tokenPos].substring(0,tokens[tokenPos].indexOf(',')),tokens[tokenPos-1],"0");
                     		}
+                                tokenPos++;
                     	}
                     }
                     else{
@@ -571,7 +572,8 @@ public class assembler {
         int array_dataLength = data.length;
         array_tempData = new String[data.length][4];
         int variableSize = getVariableSize(instruction,value);
-        
+         if (instruction.charAt(instruction.length()-1)=='S')
+            variableName=variableName.substring(variableName.indexOf(',')+1,variableName.length());
         for (int index=0; index<array_dataLength; index++){
             array_tempData[index][0]=data[index][0];
             array_tempData[index][1]=data[index][1];
