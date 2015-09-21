@@ -484,7 +484,7 @@ public class virtualMachine {
     }
     public static void JMP(){
         _currentLine++;
-        _currentLine=Integer.parseInt(_sc[_currentLine]);
+        _currentLine = GetDir();
     }
     public static void JMPF(){
         int flag;
@@ -492,7 +492,7 @@ public class virtualMachine {
         
         if(flag==0){
             _currentLine++;
-            _currentLine=Integer.parseInt(_sc[_currentLine]);
+            _currentLine = GetDir();
         }
         else
             _currentLine+=2;
@@ -503,7 +503,7 @@ public class virtualMachine {
         if(flag==1)
         {
             _currentLine++;
-            _currentLine=Integer.parseInt(_sc[_currentLine]);
+            _currentLine = GetDir();
         }
         else
             _currentLine+=2;
