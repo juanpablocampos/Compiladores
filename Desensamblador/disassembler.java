@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class Disassembler{
+public class disassembler{
 	private static String [] _KWA;
     private static String [][] _tags=new String[0][2];
     private static String [][] _variables=new String[0][4];
