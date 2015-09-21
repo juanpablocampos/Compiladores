@@ -14,7 +14,7 @@ DEFVS arrayString,4
 DEFI primerNumero
 DEFI segundoNumero
 
-;WRTM 10,Vanlosints
+WRTM 10,Vanlosints
 READI varInt
 
 PUSHI varInt
@@ -124,8 +124,8 @@ POPS varString
 WRTS varString
 WRTLN
 
-;PUSHKI 0
-;POPINDEX
+PUSHKI 0
+POPINDEX
 PUSHKI 0
 POPI varInt
 SETINDEX varInt
