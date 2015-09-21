@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.nio.*;
 
-public class assembler {
+public class Assembler {
 	
     static String[] tokens;
     static String[] KWA;
@@ -75,6 +75,8 @@ public class assembler {
         Scanner instruc= new Scanner(new FileReader("InstruccionesKWA.txt"));
         //instruccion actual
         String inst="";
+        String stringnumber="",stringmessage="";
+        int stringintnum=0, stringsentsize=0;
         int contador=0;
 
         while(sc.hasNext()){
@@ -121,11 +123,51 @@ public class assembler {
                             contador++;
                             inst=sc.next();
                             tokens[contador]=inst;
-                            contador++;
-                           
+                            contador++;                          
                         }
                         else
+                        {
+                            if(validarInstruccion(inst)==4)
+                            {
+                                tokens=agrandarVector(tokens,3);
+                                tokens[contador]=inst;
+                                contador++;
+                                inst=sc.nextLine();
+
+                                int i=0;
+                                //sacar el tamaño enviado
+                                while(inst.charAt(++i)!=',')
+                                {
+                                        stringnumber+=inst.charAt(i)+"";
+                                }
+                                stringintnum=Integer.parseInt(stringnumber);
+
+                                //sacar el string enviado y su tamaño
+                                while(++i<inst.length())
+                                {
+                                        stringmessage+=inst.charAt(i)+"";
+                                        stringsentsize++;
+                                }
+
+                                if(stringintnum<stringsentsize){
+                                        String shorterString="";
+                                        for(int x=0;x<stringintnum;x++)
+                                                shorterString+=stringmessage.charAt(x)+"";
+                                        stringmessage=shorterString;
+                                }
+                                //si el tamaño enviado es mayor al atmaño del String
+                                        while(stringmessage.length()<stringintnum){
+                                                stringmessage+=" ";
+                                        }
+
+                                tokens[contador]=stringmessage.length()+","+stringmessage;
+                                contador++;
+                                tokens[contador]=" ";
+                                contador++;
+                            }
+                            else
                             sc.nextLine();
+                        }
                     }
                 }
             }
@@ -144,9 +186,12 @@ public class assembler {
                     || (indexInstr >= 60 && indexInstr <= 64))
                     //es ADD, COMP, WRTLN (los de 1)
                     return 3; 
-                else
-                    //es instruccion
-                    return 1;
+                else                    
+                    if(indexInstr == 16 || indexInstr == 35) //es WRTM o PUSHKS (STRINGS)
+                        return 4;
+                    else
+                        //es instruccion
+                        return 1;
             }
             indexInstr++;
         }
