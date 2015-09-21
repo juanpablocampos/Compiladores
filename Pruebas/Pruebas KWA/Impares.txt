@@ -1,0 +1,33 @@
+﻿DEFI AlMillon
+DEFI PrimerUno
+DEFI SegundoUno
+DEFI PrimerCiclo
+DEFI SegundoCiclo
+DEFI TercerCiclo
+PUSHKI 0
+POPI AlMillon
+PUSHKI 1
+POPI PrimerUno
+PUSHKI 1
+POPI SegundoUno
+ETQA:  PUSHI AlMillon
+PUSHKI 1000000
+CMPLT
+JMPF:ETQB
+JMPT:ETQG
+ETQB: PUSHKI 1
+POPI PrimerCiclo
+PUSHKI 0
+POPI SegundoCiclo
+PUSHKI 0
+POPI TercerCiclo
+ETQX: PUSHI PrimerCiclo
+PUSHI AlMillon
+CMPLT
+JMPF : ETQS
+JMPT: ETQM
+ETQC:PUSHI PrimerCiclo
+PUSHKI 1
+ADD
+POPI PrimerCiclo
+JMP: ETQX
