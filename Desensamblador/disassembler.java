@@ -1,9 +1,12 @@
-﻿package disassembler;
+﻿
+package disassembler;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
@@ -19,10 +22,10 @@ public class disassembler{
     public static void main(String[] args) throws Exception{
         // TODO code application logic here
     	pasarInstruKWAalVector();
-    	fill_KWA();
+    	String fileName =  fill_KWA();
     	fillVariables();
     	fillTags();
-    	TranslateToAssembly();
+    	TranslateToAssembly(fileName);
     }
     //FILL INSTRUCTIONS/VARIABLES/TAGS
     public static void fillVariables() throws FileNotFoundException{
@@ -63,7 +66,7 @@ public class disassembler{
         archivoInstrucciones.close();
     }
     //FILL _KWA
-    public static void fill_KWA() throws IOException{
+    public static String fill_KWA() throws IOException{
         //OPEN FILE DIALOG
         Frame f=new Frame();
         boolean error=false;
@@ -177,6 +180,7 @@ public class disassembler{
     			}
     		}
     	}
+        return filename;
     }
     //0 -> Integer -- 1-> Float -- 2-> Double -- 3 -> char -- 4 -> String 
     public static int getVariableTypeCode(String instruction){
@@ -257,7 +261,7 @@ public class disassembler{
     }
 
     //DISASSEMBLY
-    public static void TranslateToAssembly(){
+    public static void TranslateToAssembly(String fileName){
         //Creates the array that is going to be used for the final print. 
         String [][] printingArray= new String[_KWA.length][3];  
         //Is used to know what type of instruction is next to be used. 
@@ -291,7 +295,7 @@ public class disassembler{
                 rowPrintingArray++;
             }
         }
-        WriteArrayToFile(printingArray);
+        WriteArrayToFile(printingArray,fileName);
     }
     //recibe el codigo de operacion que se quiere buscar
     //regresa el tipo que es - Constante, Variable, Funcion -
@@ -353,7 +357,34 @@ public class disassembler{
 	}
 	return "";
     }
-    private static void WriteArrayToFile(String [][] printingArray){
+    private static void WriteArrayToFile(String [][] printingArray, String fileName){
+         
+        try{
+            File texto=new File(fileName.substring(0,fileName.length()-4) + ".ASM");
+            FileWriter escribir = new FileWriter(texto,false);
+            
+            int vectorSize=0;
+            while(printingArray[vectorSize][0]!=null)
+                vectorSize++;
+            for(int x=0; x<vectorSize;x++){
+                if(printingArray[x][0].equals(""))
+                    escribir.write("\t\r\n");
+                else
+                    escribir.write("\t\r\n"+printingArray[x][0] + "\t\r\n");
+                escribir.write(printingArray[x][1]+ "\t ");
+                if(printingArray[x][2].equals(""))
+                    escribir.write("\t");
+                else
+                    escribir.write(printingArray[x][2]);
+            }                  
+            escribir.close();
+        }
+        catch(Exception e){
+            System.out.println("Error");
+        }
+        
+        
+        
         int vectorSize=0;
         while(printingArray[vectorSize][0]!=null)
             vectorSize++;
@@ -367,6 +398,8 @@ public class disassembler{
                 System.out.println();
             else
                 System.out.println(printingArray[x][2]);
+            
         }
+               
     }
 }
