@@ -2,19 +2,19 @@ DEFI varInt
 DEFD varDouble
 DEFF varFloat
 DEFC varChar
-DEFS varString
+DEFS 10,varString
 
 DEFVI arrayInt,4
 DEFVD arrayDouble,4
 DEFVF arrayFloat,4
 DEFVC arrayChar,4
-DEFVS arrayString,4,8
+DEFVS arrayString,4
 
 
 DEFI primerNumero
 DEFI segundoNumero
-;---------- OPERACIONES CON INT-----------
-WRTM 4,Int:
+;----------OPERACIONESCONINT-----------
+
 READI varInt
 
 PUSHI varInt
@@ -44,8 +44,8 @@ MOD
 POPI varInt
 WRTI varInt
 WRTLN
-;---------- OPERACIONES CON DOUBLE-----------
-WRTM 7,Double:
+;----------OPERACIONESCONDOUBLE-----------
+
 READD varDouble
 
 PUSHD varDouble
@@ -75,8 +75,8 @@ MOD
 POPD varDouble
 WRTD varDouble
 WRTLN
-;---------- OPERACIONES CON FLOAT-----------
-WRTM 6,Float:
+;----------OPERACIONESCONFLOAT-----------
+
 READF varFloat
 
 PUSHF varFloat
@@ -106,8 +106,8 @@ MOD
 POPF varFloat
 WRTF varFloat
 WRTLN
-;---------- OPERACIONES CON CHAR-----------
-WRTM 5,Char:
+;----------OPERACIONESCONCHAR-----------
+
 READC varChar
 
 PUSHC varChar
@@ -116,8 +116,8 @@ POPC varChar
 WRTC varChar
 WRTLN
 
-;---------- OPERACIONES CON STRING-----------
-WRTM 7,String:
+;----------OPERACIONESCONSTRING-----------
+
 READS varString
 
 PUSHS varString
@@ -128,16 +128,16 @@ POPS varString
 WRTS varString
 WRTLN
 
-;---------- OPERACIONES CON INDEX-----------
-PUSHKI 0
-POPINDEX
+;----------OPERACIONESCONINDEX-----------
+;PUSHKI 0
+;POPINDEX
 PUSHKI 0
 POPI varInt
 SETINDEX varInt
 SETINDEXK 0
 
-;---------- OPERACIONES CON VECTOR INT-----------
-WRTM 10,VectorInt:
+;----------OPERACIONESCONVECTORINT-----------
+
 
 READVI arrayInt
 PUSHVI arrayInt
@@ -146,8 +146,8 @@ POPVI arrayInt
 WRTVI arrayInt
 WRTLN
 
-;---------- OPERACIONES CON VECTOR DOUBLE-----------
-WRTM 13,VectorDouble:
+;----------OPERACIONESCONVECTORDOUBLE-----------
+
 
 READVD arrayDouble
 PUSHVD arrayDouble
@@ -155,8 +155,8 @@ POPVD arrayDouble
 
 WRTVD arrayDouble
 WRTLN
-;---------- OPERACIONES CON VECTOR FLOAT-----------
-WRTM 12,VectorFloat:
+;----------OPERACIONESCONVECTORFLOAT-----------
+
 
 READVF arrayFloat
 PUSHVF arrayFloat
@@ -164,8 +164,8 @@ POPVF arrayFloat
 
 WRTVF arrayFloat
 WRTLN
-;---------- OPERACIONES CON VECTOR CHAR-----------
-WRTM 11,VectorChar:
+;----------OPERACIONESCONVECTORCHAR-----------
+
 
 READVC arrayChar
 PUSHVC arrayChar
@@ -173,8 +173,8 @@ POPVC arrayChar
 
 WRTVC arrayChar
 WRTLN
-;---------- OPERACIONES CON VECTOR STRING-----------
-WRTM 13,VectorString:
+;----------OPERACIONESCONVECTORSTRING-----------
+
 
 READVS arrayString
 PUSHVS arrayString
@@ -184,10 +184,10 @@ WRTVS arrayString
 WRTLN
 
 
-;---------- OPERACIONES CON COMPARES Y JUMPS-----------
-WRTM 15,ComparesYJumps:
+;----------OPERACIONESCONCOMPARESYJUMPS-----------
 
-ETQREADS:READI primerNumero
+
+ETQREADS: READI primerNumero
 READI segundoNumero
 
 PUSHI primerNumero
