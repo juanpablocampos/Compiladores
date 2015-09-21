@@ -579,7 +579,8 @@ public class Assembler {
             return 1;
         
         if(lastLetter=='S'){
-            String temp="";
+        	return 255;
+            /*String temp="";
             boolean flag=false;
             boolean error=false;
             int length=0;
@@ -605,7 +606,7 @@ public class Assembler {
             if(!error)
                 return length+1;
             else
-                return -1;
+                return -1;*/
         }
         return -1;
     }
