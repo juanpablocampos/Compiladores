@@ -942,8 +942,8 @@ public class assembler {
     			i++;
     			variableSize=Integer.parseInt(KWA[i].substring(0, KWA[i].indexOf(',')));
     			bufferedOut.write(StringLengthToByte(variableSize));
-    			stringToSave=KWA[i].substring(KWA[i].indexOf(','),KWA[i].length());
-    			for(int c=0;c<stringToSave.length();c++){
+    			stringToSave=KWA[i].substring(KWA[i].indexOf(',')+1,KWA[i].length());
+    			for(int c=0;c<variableSize;c++){
     				bufferedOut.write(CharToByte(stringToSave.charAt(c)));
     			}
     			i=i+variableSize;
