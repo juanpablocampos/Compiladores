@@ -22,21 +22,25 @@ PUSHI varInt
 ADD
 
 POPI varInt
+WRTI varInt
 PUSHI varInt
 PUSHKI 2
 SUB
 
 POPI varInt
+WRTI varInt
 PUSHI varInt
 PUSHI varInt
 MUL
 
 POPI varInt
+WRTI varInt
 PUSHI varInt
 PUSHI varInt
 DIV
 
 POPI varInt
+WRTI varInt
 PUSHI varInt
 PUSHI varInt
 MOD
@@ -45,6 +49,7 @@ POPI varInt
 WRTI varInt
 WRTLN
 
+WRTM 12,VanlosDouble
 READD varDouble
 
 PUSHD varDouble
@@ -75,6 +80,7 @@ POPD varDouble
 WRTD varDouble
 WRTLN
 
+WRTM 11,VanlosFloat
 READF varFloat
 
 PUSHF varFloat
@@ -105,6 +111,7 @@ POPF varFloat
 WRTF varFloat
 WRTLN
 
+WRTM 11,Vaelchar
 READC varChar
 
 PUSHC varChar
@@ -113,7 +120,7 @@ POPC varChar
 WRTC varChar
 WRTLN
 
-
+WRTM 13,Vaelstring
 READS varString
 
 PUSHS varString
