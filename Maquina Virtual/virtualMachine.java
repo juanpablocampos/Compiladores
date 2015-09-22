@@ -1,4 +1,6 @@
 package virtualMachine;
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
@@ -25,10 +27,12 @@ public class virtualMachine {
         _currentLine = 0;
         _dir = 0;
         _index = 0;
-        GetSC();
-        GetSD();
+        String fileName = getFileName();
+        GetSC(fileName);
+        GetSD(fileName);
         RunVirtualMachine();
     }
+    
     public static void RunVirtualMachine(){
     	while(_currentLine <= _sc.length && ByteToInstruction(_sc[_currentLine])!=0){
         	//System.out.println(ByteToInstruction(_sc[_currentLine]));
@@ -234,8 +238,8 @@ public class virtualMachine {
         }
     }
     //Leer Segmento de Código
-    public static void GetSC() throws IOException{
-    	byte[] bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
+    public static void GetSC(String fileName) throws IOException{
+    	byte[] bytesInFile=Files.readAllBytes(Paths.get(fileName));
     	byte[] segment=new byte[2];
     	segment[0]=bytesInFile[10];
     	segment[1]=bytesInFile[11];
@@ -247,13 +251,43 @@ public class virtualMachine {
     	}
     	
     }
-    public static void GetSD() throws IOException{
-    	byte[] bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
+    public static void GetSD(String fileName) throws IOException{
+    	byte[] bytesInFile=Files.readAllBytes(Paths.get(fileName));
     	byte[] segment=new byte[2];
     	segment[0]=bytesInFile[12];
     	segment[1]=bytesInFile[13];
     	_sd=new byte[ByteArrayToSegment(segment)];
     }
+    public static String getFileName(){
+        //OPEN FILE DIALOG
+        Frame f=new Frame();
+        boolean error=false;
+        FileDialog fd = new FileDialog(f, "Choose a file", FileDialog.LOAD);       
+        fd.setDirectory("C:\\");
+        fd.setFile("*.KWA");
+        fd.setVisible(true);
+        String filename="";
+        
+         try
+        {
+         filename = fd.getFile();
+        if (filename == null)
+        {
+            System.out.println("You cancelled the choice");
+            error=true;
+        }
+        else
+        {
+            System.out.println("You chose " + filename);
+            
+        }
+        }catch(Exception e){System.out.println(e.getMessage());error=true;}
+        if(error)
+            System.exit(0);
+        f.dispose();
+        return filename;
+    }
+    
     //Metodos
     public static void WRTI(){
 	int x=0;
