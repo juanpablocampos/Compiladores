@@ -91,7 +91,7 @@ public class disassembler{
             System.exit(0);
         f.dispose();
         
-    	_bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
+    	_bytesInFile=Files.readAllBytes(Paths.get(filename));
     	byte[] segment=new byte[2];
     	byte[] dir=new byte[2];
     	byte[] intInBytes=new byte[4];
@@ -110,59 +110,70 @@ public class disassembler{
     	segment[0]=_bytesInFile[12];
     	segment[1]=_bytesInFile[13];
     	
-    	for(int i=14;i<_bytesInFile.length;i++){
-    		instructionLength = getInstructionVariableSize(ByteToInstruction(_bytesInFile[i]));
-    		_KWA[i-14]=(""+ByteToInstruction(_bytesInFile[i]));
+    	for(int index_bytesInFile=14,indexKWA=0;index_bytesInFile<_bytesInFile.length;index_bytesInFile++,indexKWA++){
+    		instructionLength = getInstructionVariableSize(ByteToInstruction(_bytesInFile[index_bytesInFile]));
+    		
+    		_KWA[indexKWA]=(""+ByteToInstruction(_bytesInFile[index_bytesInFile]));
+    		System.out.println("["+indexKWA+"]="+_KWA[indexKWA]+"--"+"["+index_bytesInFile+"]="+_bytesInFile[index_bytesInFile]);
     		//WRTM PUSHKS
     		if(instructionLength==-1){
-    			i++;
-    			variableSize = ByteToStringLength(_bytesInFile[i]);
-    			_KWA[i-14]=(""+variableSize);
-    			i++;
-    			for(int c=i;c<variableSize;c++){
-    				_KWA[i-14]=(""+ByteToChar(_bytesInFile[c]));
+    			index_bytesInFile++;
+    			indexKWA++;
+    			variableSize = ByteToStringLength(_bytesInFile[index_bytesInFile]);
+    			_KWA[indexKWA]=(""+variableSize);
+    			
+    			// corregi este for para que concatene los caracteres variableSize+1 por la coma
+    			 for(int c=1;c<=variableSize+1;c++){
+    				_KWA[indexKWA]+=(""+ByteToChar(_bytesInFile[c+index_bytesInFile]));
     			}
-    			System.out.println();
-    			i=i+variableSize-1;
+
+    			 index_bytesInFile=index_bytesInFile+variableSize+1;
+    			 indexKWA=indexKWA+variableSize;
     		}
     		
     		if(instructionLength==2){
-    			i++;
-    			dir[0]=_bytesInFile[i];i++;
-    			dir[1]=_bytesInFile[i];
-    			_KWA[i-14-1]=(""+ByteArrayToDir(dir));
+    			index_bytesInFile++;
+    			indexKWA++;
+    			dir[0]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+    			dir[1]=_bytesInFile[index_bytesInFile];
+    			_KWA[indexKWA]=(""+ByteArrayToDir(dir));
+    			indexKWA++;
     		}
     		
     		if(instructionLength>0 && instructionLength!=2){
-    			i++;
-    			switch(getVariableTypeCode(_instructions[ByteToInstruction(_bytesInFile[i-1])])){
+    			index_bytesInFile++;
+    			indexKWA++;
+    			switch(getVariableTypeCode(_instructions[ByteToInstruction(_bytesInFile[index_bytesInFile-1])])){
         			case 0:
-        				intInBytes[0]=_bytesInFile[i];i++;
-        				intInBytes[1]=_bytesInFile[i];i++;
-        				intInBytes[2]=_bytesInFile[i];i++;
-        				intInBytes[3]=_bytesInFile[i];
-        				_KWA[i-14-3]=(""+ByteArrayToInt(intInBytes));
+        				intInBytes[0]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				intInBytes[1]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				intInBytes[2]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				intInBytes[3]=_bytesInFile[index_bytesInFile];
+        				_KWA[indexKWA]=(""+ByteArrayToInt(intInBytes));
+        				indexKWA+=3;
         				break;
         			case 1:
-        				floatInBytes[0]=_bytesInFile[i];i++;
-        				floatInBytes[1]=_bytesInFile[i];i++;
-        				floatInBytes[2]=_bytesInFile[i];i++;
-        				floatInBytes[3]=_bytesInFile[i];
-        				_KWA[i-14-3]=(""+ByteArrayToFloat(floatInBytes));
+        				floatInBytes[0]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				floatInBytes[1]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				floatInBytes[2]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				floatInBytes[3]=_bytesInFile[index_bytesInFile];
+        				_KWA[indexKWA]=(""+ByteArrayToFloat(floatInBytes));
+        				indexKWA+=3;
         				break;
         			case 2:
-        				doubleInBytes[0]=_bytesInFile[i];i++;
-        				doubleInBytes[1]=_bytesInFile[i];i++;
-        				doubleInBytes[2]=_bytesInFile[i];i++;
-        				doubleInBytes[3]=_bytesInFile[i];i++;
-        				doubleInBytes[4]=_bytesInFile[i];i++;
-        				doubleInBytes[5]=_bytesInFile[i];i++;
-        				doubleInBytes[6]=_bytesInFile[i];i++;
-        				doubleInBytes[7]=_bytesInFile[i];
-        				_KWA[i-14-7]=(""+ByteArrayToDouble(doubleInBytes));
-        				break;
+        				doubleInBytes[0]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				doubleInBytes[1]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				doubleInBytes[2]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				doubleInBytes[3]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				doubleInBytes[4]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				doubleInBytes[5]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				doubleInBytes[6]=_bytesInFile[index_bytesInFile];index_bytesInFile++;
+        				doubleInBytes[7]=_bytesInFile[index_bytesInFile];
+        				_KWA[indexKWA]=(""+ByteArrayToDouble(doubleInBytes));
+        				indexKWA+=7;
+        				break;		
         			case 3:
-        				_KWA[i-14]=(""+ByteToChar(_bytesInFile[i]));
+        				_KWA[indexKWA]=(""+ByteToChar(_bytesInFile[index_bytesInFile]));
         				break;
     			}
     		}
@@ -172,6 +183,7 @@ public class disassembler{
     public static int getVariableTypeCode(String instruction){
     	switch(instruction.charAt(instruction.length()-1)){
 	    	case 'I':
+	    	case 'K':
 	    		return 0;    	
 	    	case 'F':
 	    		return 1;    	
@@ -194,8 +206,8 @@ public class disassembler{
     		case 11:case 12:case 13:case 14:case 15:
     		//WRTVs
     		case 18:case 19:case 20:case 21:case 22:
-    		//SETINDEX & POPINDEX
-    		case 23:case 25:case 26:case 27:case 28:case 29:case 30:
+    		//SETINDEX
+    		case 23:case 26:case 27:case 28:case 29:case 30:
     		//PUSHVs
     		case 36:case 37:case 38:case 39:case 40:
     		//POPs
@@ -215,7 +227,7 @@ public class disassembler{
     		//constant string
     		case 16:case 35:
     			return -1;
-    		//CMP & Arithmetic
+    		//CMP & Arithmetic & POPINDEX
     		default:
     			return 0;
     	}

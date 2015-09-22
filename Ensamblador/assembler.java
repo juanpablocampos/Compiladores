@@ -399,7 +399,7 @@ public class assembler {
 		return 3; //It's Tag
 	
 	if(token.equals("ADD") || token.equals( "SUB") || token.equals( "MUL" )|| token.equals( "DIV" )|| token.equals( "MOD") || token.equals( "CMPEQ") 
-			|| token.equals( "CPMNE") || token.equals( "CMPLT" )|| token.equals( "CMPLE" )|| token.equals( "CMPGT" )|| token.equals( "CMPGE")
+			|| token.equals( "CMPNE") || token.equals( "CMPLT" )|| token.equals( "CMPLE" )|| token.equals( "CMPGT" )|| token.equals( "CMPGE")
 			|| token.equals( "POPINDEX" )|| token.equals( "WRTLN" )|| token.equals( "HALT"))
 		return 4; //It's Instruction 0
 	 
@@ -935,6 +935,7 @@ public class assembler {
     	
     	//SC
     	for(int i=14;i<KWA.length;i++){
+    		System.out.println("["+i+"]="+KWA[i]);
     		instructionLength=getInstructionVariableSize(Integer.parseInt(KWA[i]));
 			bufferedOut.write(InstructionToByte(Integer.parseInt(KWA[i])));
     		if(instructionLength==-1){
@@ -945,7 +946,7 @@ public class assembler {
     			for(int c=0;c<stringToSave.length();c++){
     				bufferedOut.write(CharToByte(stringToSave.charAt(c)));
     			}
-    			i=i+variableSize-1;
+    			i=i+variableSize;
     		}
     		
     		if(instructionLength==2){
@@ -979,6 +980,7 @@ public class assembler {
         //0 -> Integer -- 1-> Float -- 2-> Double -- 3 -> char -- 4 -> String 
     	switch(instruction.charAt(instruction.length()-1)){
 	    	case 'I':
+	    	case 'K':
 	    		return 0;    	
 	    	case 'F':
 	    		return 1;    	
@@ -1001,8 +1003,8 @@ public class assembler {
     		case 11:case 12:case 13:case 14:case 15:
     		//WRTVs
     		case 18:case 19:case 20:case 21:case 22:
-    		//SETINDEX & POPINDEX
-    		case 23:case 25:case 26:case 27:case 28:case 29:case 30:
+    		//SETINDEX
+    		case 23:case 26:case 27:case 28:case 29:case 30:
     		//PUSHVs
     		case 36:case 37:case 38:case 39:case 40:
     		//POPs
@@ -1022,7 +1024,7 @@ public class assembler {
     		//constant string
     		case 16:case 35:
     			return -1;
-    		//CMP & Arithmetic
+    		//CMP & Arithmetic & POPINDEX
     		default:
     			return 0;
     	}
