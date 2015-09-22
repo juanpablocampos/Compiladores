@@ -120,15 +120,14 @@ public class disassembler{
     			index_bytesInFile++;
     			indexKWA++;
     			variableSize = ByteToStringLength(_bytesInFile[index_bytesInFile]);
-    			_KWA[indexKWA]=(""+variableSize);
-    			
+    			_KWA[indexKWA]=(""+variableSize+",");
     			// corregi este for para que concatene los caracteres variableSize+1 por la coma
-    			 for(int c=1;c<=variableSize+1;c++){
+    			 for(int c=1;c<=variableSize;c++){
     				_KWA[indexKWA]+=(""+ByteToChar(_bytesInFile[c+index_bytesInFile]));
     			}
 
-    			 index_bytesInFile=index_bytesInFile+variableSize+1;
-    			 indexKWA=indexKWA+variableSize;
+    			 index_bytesInFile=index_bytesInFile+variableSize;
+    			 indexKWA=indexKWA+variableSize-1;
     		}
     		
     		if(instructionLength==2){
