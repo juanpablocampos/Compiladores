@@ -122,9 +122,6 @@ public class assembler {
                                 tokens=agrandarVector(tokens,1);
                                 tokens[contador]=inst;
                                 contador++;
-                                //inst=sc.next();
-                                //tokens[contador]=inst;
-                                //contador++;                          
                             }
                             else
                             {
@@ -141,32 +138,39 @@ public class assembler {
 
                                     int i=0;
                                     //sacar el tamaño enviado
-                                    while(inst.charAt(++i)!=',')
+                                    while(inst.charAt(++i)!=','&&i+1<inst.length())
                                     {
                                             stringnumber+=inst.charAt(i)+"";
                                     }
-                                    stringintnum=Integer.parseInt(stringnumber);
-
                                     //sacar el string enviado y su tamaño
                                     while(++i<inst.length())
                                     {
                                             stringmessage+=inst.charAt(i)+"";
                                             stringsentsize++;
                                     }
-
+                                    try{
+                                    stringintnum=Integer.parseInt(stringnumber);
                                     if(stringintnum<stringsentsize){
                                             String shorterString="";
                                             for(int x=0;x<stringintnum;x++)
                                                     shorterString+=stringmessage.charAt(x)+"";
                                             stringmessage=shorterString;
-                                    }
+                                        }
                                     //si el tamaño enviado es mayor al atmaño del String
                                             while(stringmessage.length()<stringintnum){
                                                     stringmessage+=" ";
                                             }
-
-                                    tokens[contador]=stringmessage.length()+","+stringmessage;
+                                                                                tokens[contador]=stringmessage.length()+","+stringmessage;
                                     contador++;
+                                    }catch(Exception ex){
+                                        tokens[contador]=stringnumber+","+stringmessage;
+                                        contador++;
+                                    }
+
+                                    
+                                    
+
+
                                     tokens[contador]="";
                                     contador++;
                                 }
@@ -532,7 +536,9 @@ public class assembler {
                             for(int c=0; tokens[tokenPos].charAt(c)!=','; c++)
                                     stringSize+=""+tokens[tokenPos].charAt(c);
                             addToKWA(tokens[tokenPos],(Integer.parseInt(stringSize)+1));
+                            stringSize="";
                         }
+                        
                         else{
                             //Es constante
                             if(variableNeededSize!=2){
