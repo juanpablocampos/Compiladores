@@ -1,6 +1,4 @@
 package virtualMachine;
-import java.awt.FileDialog;
-import java.awt.Frame;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
@@ -27,12 +25,10 @@ public class virtualMachine {
         _currentLine = 0;
         _dir = 0;
         _index = 0;
-        String fileName = getFileName();
-        GetSC(fileName);
-        GetSD(fileName);
+        GetSC();
+        GetSD();
         RunVirtualMachine();
     }
-    
     public static void RunVirtualMachine(){
     	while(_currentLine <= _sc.length && ByteToInstruction(_sc[_currentLine])!=0){
         	//System.out.println(ByteToInstruction(_sc[_currentLine]));
@@ -238,8 +234,8 @@ public class virtualMachine {
         }
     }
     //Leer Segmento de Código
-    public static void GetSC(String fileName) throws IOException{
-    	byte[] bytesInFile=Files.readAllBytes(Paths.get(fileName));
+    public static void GetSC() throws IOException{
+    	byte[] bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
     	byte[] segment=new byte[2];
     	segment[0]=bytesInFile[10];
     	segment[1]=bytesInFile[11];
@@ -251,43 +247,13 @@ public class virtualMachine {
     	}
     	
     }
-    public static void GetSD(String fileName) throws IOException{
-    	byte[] bytesInFile=Files.readAllBytes(Paths.get(fileName));
+    public static void GetSD() throws IOException{
+    	byte[] bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
     	byte[] segment=new byte[2];
     	segment[0]=bytesInFile[12];
     	segment[1]=bytesInFile[13];
     	_sd=new byte[ByteArrayToSegment(segment)];
     }
-    public static String getFileName(){
-        //OPEN FILE DIALOG
-        Frame f=new Frame();
-        boolean error=false;
-        FileDialog fd = new FileDialog(f, "Choose a file", FileDialog.LOAD);       
-        fd.setDirectory("C:\\");
-        fd.setFile("*.KWA");
-        fd.setVisible(true);
-        String filename="";
-        
-         try
-        {
-         filename = fd.getFile();
-        if (filename == null)
-        {
-            System.out.println("You cancelled the choice");
-            error=true;
-        }
-        else
-        {
-            System.out.println("You chose " + filename);
-            
-        }
-        }catch(Exception e){System.out.println(e.getMessage());error=true;}
-        if(error)
-            System.exit(0);
-        f.dispose();
-        return filename;
-    }
-    
     //Metodos
     public static void WRTI(){
 	int x=0;
@@ -311,27 +277,34 @@ public class virtualMachine {
     }
     public static void varPrint(int x){
     	_currentLine++;
-        double a=0;
+    	// 0 = int -- 1 = double -- 2 = float -- 3 = char -- 4 = string
+    	int esInt=0;
+    	 double esDouble=0;
+         char esChar='0';
+         float esFloat=0f;
+         String esString="0";
+         
+       /* double a=0;
         char b='0';
         float c=0f;
-        String d="0";
+        String d="0";*/
         _dir=GetDir();
         switch (x)
         {
             case 0:
-                System.out.println(GetVariableValue(_dir, x));
+                System.out.println(GetVariableValue(_dir, esInt));
                 break;
             case 1:
-                System.out.println(GetVariableValue(_dir, a));
+                System.out.println(GetVariableValue(_dir, esDouble));
                 break;
             case 2:
-                System.out.println(GetVariableValue(_dir, c));
+                System.out.println(GetVariableValue(_dir, esFloat));
                 break;
             case 3:
-                System.out.println(GetVariableValue(_dir, b));
+                System.out.println(GetVariableValue(_dir, esChar));
                 break;
             case 4:
-                System.out.println(GetVariableValue(_dir, d));
+                System.out.println(GetVariableValue(_dir, esString));
                 break;
         }
     	_currentLine += 2;
@@ -340,6 +313,7 @@ public class virtualMachine {
         String x="0";
     	_currentLine++;
     	x=GetConstantValue(x);
+    	System.out.print(x);
     	_currentLine += x.length()+1;
     }
     public static void WRTLN(){
@@ -394,7 +368,6 @@ public class virtualMachine {
         }
         SetVariableValue(_dir,newValue);
         _currentLine+=2;
-        scan.close();
     }
     public static void ReadD() {
     	 Scanner scan=new Scanner(System.in);
@@ -409,7 +382,6 @@ public class virtualMachine {
          }
          SetVariableValue(_dir,newValue);
          _currentLine+=2;
-         scan.close();
     }
     public static void ReadF(){
     	 Scanner scan=new Scanner(System.in);
@@ -424,7 +396,6 @@ public class virtualMachine {
          }
          SetVariableValue(_dir,newValue);
          _currentLine+=2;
-         scan.close();
     }
     public static void ReadC() {
     	 Scanner scan=new Scanner(System.in);
@@ -439,7 +410,6 @@ public class virtualMachine {
          }
          SetVariableValue(_dir,newValue);
          _currentLine+=2;
-         scan.close();
     }
     public static void ReadS(){
     	 Scanner scan=new Scanner(System.in);
@@ -454,7 +424,6 @@ public class virtualMachine {
          }
          SetVariableValue(_dir,newValue);
          _currentLine+=2;
-         scan.close();
     }
     public static void ReadVI(){
         Scanner scan=new Scanner(System.in);
@@ -469,7 +438,6 @@ public class virtualMachine {
         }
         SetVariableValue(_dir+_index*4,newValue);
         _currentLine+=2;
-        scan.close();
     }
     public static void ReadVD(){
     	 Scanner scan=new Scanner(System.in);
@@ -484,7 +452,6 @@ public class virtualMachine {
          }
          SetVariableValue(_dir+_index*8,newValue);
          _currentLine+=2;
-         scan.close();
     }
     public static void ReadVF(){
     	 Scanner scan=new Scanner(System.in);
@@ -499,7 +466,6 @@ public class virtualMachine {
          }
          SetVariableValue(_dir+_index*4,newValue);
          _currentLine+=2;
-         scan.close();
     }
     public static void ReadVC(){
     	 Scanner scan=new Scanner(System.in);
@@ -514,7 +480,6 @@ public class virtualMachine {
          }
          SetVariableValue(_dir+_index*1,newValue);
          _currentLine+=2;
-         scan.close();
     }
     public static void ReadVS(){
     	 Scanner scan=new Scanner(System.in);
@@ -937,7 +902,7 @@ public class virtualMachine {
     public static void POPF(){ 
         float poppedVariable=0.0f;
         try{
-            poppedVariable = _stack.POPI();
+            poppedVariable = _stack.POPF();
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -950,7 +915,7 @@ public class virtualMachine {
     public static void POPD(){ 
         double poppedVariable=0.0;
         try{
-            poppedVariable = _stack.POPI();
+            poppedVariable = _stack.POPD();
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -963,7 +928,7 @@ public class virtualMachine {
     public static void POPC(){ 
         char poppedVariable=' ';
         try{
-            poppedVariable = (char)_stack.POPI();
+            poppedVariable = (char)_stack.POPC();
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -976,7 +941,7 @@ public class virtualMachine {
     public static void POPS(){ 
         String poppedVariable="";
         try{
-            poppedVariable = Integer.toString(_stack.POPI());
+            poppedVariable = String.valueOf((_stack.POPS()));
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -1001,7 +966,7 @@ public class virtualMachine {
     public static void POPVF(){ 
         float poppedVariable = 0.0f;
         try{
-            poppedVariable = _stack.POPI();
+            poppedVariable = _stack.POPF();
             _currentLine ++;
             SetVariableValue(GetDir(),poppedVariable);
             _currentLine += 2;
@@ -1013,7 +978,7 @@ public class virtualMachine {
     public static void POPVD(){ 
         double poppedVariable = 0.0;
         try{
-            poppedVariable = _stack.POPI();
+            poppedVariable = _stack.POPD();
             _currentLine ++;
             SetVariableValue(GetDir(),poppedVariable);
             _currentLine += 2;
@@ -1366,6 +1331,7 @@ public class virtualMachine {
     public static int getVariableTypeCode(String instruction){
     	switch(instruction.charAt(instruction.length()-1)){
 	    	case 'I':
+    		case 'K':
 	    		return 0;    	
 	    	case 'F':
 	    		return 1;    	
@@ -1496,10 +1462,10 @@ public class virtualMachine {
     	doubleToConvert[1]=_sd[dir+1];
     	doubleToConvert[2]=_sd[dir+2];
     	doubleToConvert[3]=_sd[dir+3];
-    	doubleToConvert[0]=_sd[dir+4];
-    	doubleToConvert[1]=_sd[dir+5];
-    	doubleToConvert[2]=_sd[dir+6];
-    	doubleToConvert[3]=_sd[dir+7];
+    	doubleToConvert[4]=_sd[dir+4];
+    	doubleToConvert[5]=_sd[dir+5];
+    	doubleToConvert[6]=_sd[dir+6];
+    	doubleToConvert[7]=_sd[dir+7];
     	return ByteArrayToDouble(doubleToConvert);
     }
     public static char GetVariableValue(int dir, char dummyValue){
@@ -1559,13 +1525,13 @@ public class virtualMachine {
     	byte[] floatToConvert=new byte[4];
     	for(int i=0;i<4;i++)
     		floatToConvert[i]=_sc[_currentLine+i];
-    	return ByteArrayToInt(floatToConvert);
+    	return ByteArrayToFloat(floatToConvert);
     }
     public static double GetConstantValue(double dummyValue){
     	byte[] doubleToConvert=new byte[8];
     	for(int i=0;i<8;i++)
     		doubleToConvert[i]=_sc[_currentLine+i];
-    	return ByteArrayToInt(doubleToConvert);
+    	return ByteArrayToDouble(doubleToConvert);
     }
     public static char GetConstantValue(char dummyValue){
     	return ByteToChar(_sc[_currentLine]);
