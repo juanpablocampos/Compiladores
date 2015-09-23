@@ -57,21 +57,25 @@ PUSHD varDouble
 ADD
 
 POPD varDouble
+WRTD varDouble
 PUSHD varDouble
-PUSHKD 2.2
+PUSHKD 2
 SUB
 
 POPD varDouble
+WRTD varDouble
 PUSHD varDouble
 PUSHD varDouble
 MUL
 
 POPD varDouble
+WRTD varDouble
 PUSHD varDouble
 PUSHD varDouble
 DIV
 
 POPD varDouble
+WRTD varDouble
 PUSHD varDouble
 PUSHD varDouble
 MOD
@@ -88,21 +92,25 @@ PUSHF varFloat
 ADD
 
 POPF varFloat
+WRTF varFloat
 PUSHF varFloat
 PUSHKF 2.2
 SUB
 
 POPF varFloat
+WRTF varFloat
 PUSHF varFloat
 PUSHF varFloat
 MUL
 
 POPF varFloat
+WRTF varFloat
 PUSHF varFloat
 PUSHF varFloat
 DIV
 
 POPF varFloat
+WRTF varFloat
 PUSHF varFloat
 PUSHF varFloat
 MOD
@@ -138,7 +146,7 @@ POPI varInt
 SETINDEX varInt
 SETINDEXK 0
 
-
+WRTM 13,VaelvectorInt
 READVI arrayInt
 PUSHVI arrayInt
 POPVI arrayInt
@@ -147,7 +155,7 @@ WRTVI arrayInt
 WRTLN
 
 
-
+WRTM 16,VaelvectorDouble
 READVD arrayDouble
 PUSHVD arrayDouble
 POPVD arrayDouble
@@ -156,6 +164,7 @@ WRTVD arrayDouble
 WRTLN
 
 
+WRTM 15,VaelvectorFloat
 READVF arrayFloat
 PUSHVF arrayFloat
 POPVF arrayFloat
@@ -163,7 +172,7 @@ POPVF arrayFloat
 WRTVF arrayFloat
 WRTLN
 
-
+WRTM 14,VaelvectorChar
 READVC arrayChar
 PUSHVC arrayChar
 POPVC arrayChar
@@ -171,7 +180,7 @@ POPVC arrayChar
 WRTVC arrayChar
 WRTLN
 
-
+WRTM 16,VaelvectorString
 READVS arrayString
 PUSHVS arrayString
 POPVS arrayString
@@ -179,7 +188,9 @@ POPVS arrayString
 WRTVS arrayString
 WRTLN
 
-ETQREADS: READI primerNumero
+WRTM 16,DamePrimerNumero
+READI primerNumero
+WRTM 17,DameSegundoNumero
 READI segundoNumero
 
 PUSHI primerNumero

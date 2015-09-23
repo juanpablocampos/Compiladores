@@ -346,7 +346,7 @@ public class virtualMachine {
         char x='0';
         _dir = GetDir();
         System.out.print(GetVariableValue(_dir+_index, x));
-        _currentLine++;
+        _currentLine+=2;
     }
     public static void WRTVS(){
         String StringValue="0";
@@ -494,7 +494,6 @@ public class virtualMachine {
          }
          SetVariableValue(_dir+_index*255,newValue);
          _currentLine+=2;
-         scan.close();
     }
     
     public static void SETINDEX(){
@@ -508,7 +507,7 @@ public class virtualMachine {
         _currentLine++;
         int x=0;
         _index=GetConstantValue(x);
-        _currentLine+=2;
+        _currentLine+=4;
     }
     public static void POPINDEX(){
         try{

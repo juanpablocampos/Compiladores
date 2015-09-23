@@ -2,19 +2,19 @@ DEFI varInt
 DEFD varDouble
 DEFF varFloat
 DEFC varChar
-DEFS varString
+DEFS 5,varString
 
 DEFVI arrayInt,4
 DEFVD arrayDouble,4
 DEFVF arrayFloat,4
 DEFVC arrayChar,4
-DEFVS arrayString,4,8
+DEFVS arrayString,4
 
 
 DEFI primerNumero
 DEFI segundoNumero
-;---------- OPERACIONES CON INT-----------
-WRTM 4,Int:
+
+WRTM 10,Vanlosints
 READI varInt
 
 PUSHI varInt
@@ -22,21 +22,25 @@ PUSHI varInt
 ADD
 
 POPI varInt
+WRTI varInt
 PUSHI varInt
 PUSHKI 2
 SUB
 
 POPI varInt
+WRTI varInt
 PUSHI varInt
 PUSHI varInt
 MUL
 
 POPI varInt
+WRTI varInt
 PUSHI varInt
 PUSHI varInt
 DIV
 
 POPI varInt
+WRTI varInt
 PUSHI varInt
 PUSHI varInt
 MOD
@@ -44,8 +48,8 @@ MOD
 POPI varInt
 WRTI varInt
 WRTLN
-;---------- OPERACIONES CON DOUBLE-----------
-WRTM 7,Double:
+
+WRTM 12,VanlosDouble
 READD varDouble
 
 PUSHD varDouble
@@ -53,21 +57,25 @@ PUSHD varDouble
 ADD
 
 POPD varDouble
+WRTD varDouble
 PUSHD varDouble
-PUSHKD 2.2
+PUSHKD 2
 SUB
 
 POPD varDouble
+WRTD varDouble
 PUSHD varDouble
 PUSHD varDouble
 MUL
 
 POPD varDouble
+WRTD varDouble
 PUSHD varDouble
 PUSHD varDouble
 DIV
 
 POPD varDouble
+WRTD varDouble
 PUSHD varDouble
 PUSHD varDouble
 MOD
@@ -75,8 +83,8 @@ MOD
 POPD varDouble
 WRTD varDouble
 WRTLN
-;---------- OPERACIONES CON FLOAT-----------
-WRTM 6,Float:
+
+WRTM 11,VanlosFloat
 READF varFloat
 
 PUSHF varFloat
@@ -84,21 +92,25 @@ PUSHF varFloat
 ADD
 
 POPF varFloat
+WRTF varFloat
 PUSHF varFloat
 PUSHKF 2.2
 SUB
 
 POPF varFloat
+WRTF varFloat
 PUSHF varFloat
 PUSHF varFloat
 MUL
 
 POPF varFloat
+WRTF varFloat
 PUSHF varFloat
 PUSHF varFloat
 DIV
 
 POPF varFloat
+WRTF varFloat
 PUSHF varFloat
 PUSHF varFloat
 MOD
@@ -106,8 +118,8 @@ MOD
 POPF varFloat
 WRTF varFloat
 WRTLN
-;---------- OPERACIONES CON CHAR-----------
-WRTM 5,Char:
+
+WRTM 11,Vaelchar
 READC varChar
 
 PUSHC varChar
@@ -116,8 +128,7 @@ POPC varChar
 WRTC varChar
 WRTLN
 
-;---------- OPERACIONES CON STRING-----------
-WRTM 7,String:
+WRTM 13,Vaelstring
 READS varString
 
 PUSHS varString
@@ -128,7 +139,6 @@ POPS varString
 WRTS varString
 WRTLN
 
-;---------- OPERACIONES CON INDEX-----------
 PUSHKI 0
 POPINDEX
 PUSHKI 0
@@ -136,9 +146,7 @@ POPI varInt
 SETINDEX varInt
 SETINDEXK 0
 
-;---------- OPERACIONES CON VECTOR INT-----------
-WRTM 10,VectorInt:
-
+WRTM 13,VaelvectorInt
 READVI arrayInt
 PUSHVI arrayInt
 POPVI arrayInt
@@ -146,36 +154,33 @@ POPVI arrayInt
 WRTVI arrayInt
 WRTLN
 
-;---------- OPERACIONES CON VECTOR DOUBLE-----------
-WRTM 13,VectorDouble:
 
+WRTM 16,VaelvectorDouble
 READVD arrayDouble
 PUSHVD arrayDouble
 POPVD arrayDouble
 
 WRTVD arrayDouble
 WRTLN
-;---------- OPERACIONES CON VECTOR FLOAT-----------
-WRTM 12,VectorFloat:
 
+
+WRTM 15,VaelvectorFloat
 READVF arrayFloat
 PUSHVF arrayFloat
 POPVF arrayFloat
 
 WRTVF arrayFloat
 WRTLN
-;---------- OPERACIONES CON VECTOR CHAR-----------
-WRTM 11,VectorChar:
 
+WRTM 14,VaelvectorChar
 READVC arrayChar
 PUSHVC arrayChar
 POPVC arrayChar
 
 WRTVC arrayChar
 WRTLN
-;---------- OPERACIONES CON VECTOR STRING-----------
-WRTM 13,VectorString:
 
+WRTM 16,VaelvectorString
 READVS arrayString
 PUSHVS arrayString
 POPVS arrayString
@@ -183,11 +188,9 @@ POPVS arrayString
 WRTVS arrayString
 WRTLN
 
-
-;---------- OPERACIONES CON COMPARES Y JUMPS-----------
-WRTM 15,ComparesYJumps:
-
-ETQREADS:READI primerNumero
+WRTM 16,DamePrimerNumero
+READI primerNumero
+WRTM 17,DameSegundoNumero
 READI segundoNumero
 
 PUSHI primerNumero
