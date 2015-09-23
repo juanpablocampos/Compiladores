@@ -1,9 +1,10 @@
-﻿package assembler;
+package assembler;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.*;
 import java.util.*;
 import java.nio.*;
+import javax.swing.JOptionPane;
 
 public class assembler {
 	
@@ -230,7 +231,7 @@ public class assembler {
         archivoInstrucciones.close();
     }
     //VALIDAR        
-    public static boolean validate()
+   public static boolean validate()
 	{
 		//indice del token a validar
 		int index;
@@ -255,98 +256,122 @@ public class assembler {
 			
 			
 			//Recibo el tipo de variable 
-			actualtype= getTypeToken(tokens[index]); // Metodo Yisus
+			actualtype= getTypeToken(tokens[index],previous); // Metodo Yisus
 			//El tipo es constante o Variable?
 			if(actualtype == 1)
 			{
-				//Tiene puros numeros?
-				variableorconstant=isNumeric(tokens[index]);
-				if(!variableorconstant)
+				if(previous==10)
 				{
-					//tiene algun numero?
-					if (tokens[index].matches(".*\\d+.*") == false)
+					if(tokens[index].length() > 1)
 					{
-						
-						boolean Symbolcheck=false;
-						for (int i = 0; i < tokens[index].length(); i++) 
+                                            
+                                            JOptionPane.showMessageDialog(null,"El Char es muy grande: " + tokens[index],"Error",JOptionPane.ERROR_MESSAGE);
+                                            
+                                            return false;
+					}
+				}else{
+					
+				
+				//Tiene puros numeros?
+					variableorconstant=isNumeric(tokens[index]);
+					if(!variableorconstant)
+					{
+						//tiene algun numero?
+						if (tokens[index].matches(".*\\d+.*") == false)
 						{
-				            ch = tokens[index].charAt(i);
-				            if (!Character.isAlphabetic(ch) && !Character.isDigit(ch)) 
-				            {
-				            	Symbolcheck=true;
-				            	System.out.println("Error de Sintaxis en"+tokens[index]);
-				            	return false;
-				                //error
-				            } 
+						
+							boolean Symbolcheck=false;
+							for (int i = 0; i < tokens[index].length(); i++) 
+							{
+								ch = tokens[index].charAt(i);
+								if (!Character.isAlphabetic(ch) && !Character.isDigit(ch)) 
+								{
+									Symbolcheck=true;
+									JOptionPane.showMessageDialog(null,"La variable solo acepta letras " + tokens[index],"Error",JOptionPane.ERROR_MESSAGE);
+									return false;
+									//error
+								} 
 				            
-				        }
-						if(!Symbolcheck)
-						{
-							actualtype=2; //variable
-						}
-						
-						
-					}else
-					{
-						//Revisar que tiene coma
-						if(tokens[index].contains(","))
-						{
-							//Separa el String en 2 partes usando la coma como pivote
-							parts=tokens[index].split(",");
-							
-							if(parts.length>2)
-							{
-								System.out.print("Error de Sintaxis en"+tokens[index]);
 							}
-							part1=parts[0];
-							part2=parts[1];
-							
-							words=isWord(part1);
-							
-							//Revisa si la parte 1 son letras y la 2da son numeros
-							if(words && isNumeric(part2))
+							if(!Symbolcheck)
 							{
-								previousprevious=previous;
-								previous=2;
-								actualtype=1;
-							}else
+								actualtype=2; //variable
+							}
+						
+						
+						}else
+						{
+							//Revisar que tiene coma
+							if(tokens[index].contains(","))
 							{
-								words=isWord(part2);
-								//Revisa si la primera parte son numeros y la segunda son letras
-								if(isNumeric(part1) && words && previous != 9)
+								//Separa el String en 2 partes usando la coma como pivote
+								parts=tokens[index].split(",");
+							
+								
+								part1=parts[0];
+								part2=parts[1];
+                                                                
+                                                                if(parts.length>2)
+								{
+									for(int c=2 ; c<parts.length;c++)
+                                                                        {
+                                                                            part2 += "," + parts[c];
+                                                                        }
+									
+								}
+							
+								words=isWord(part1);
+							
+								//Revisa si la parte 1 son letras y la 2da son numeros (vector)
+								if(words && isNumeric(part2))
 								{
 									previousprevious=previous;
-									previous=1;
-									actualtype=2;
-								}
-								else
+									previous=2;
+									actualtype=1;
+								}else
 								{
-									if(isNumeric(part1))
+									words=isWord(part2);
+									//Revisa si la primera parte son numeros y la segunda son letras (DEFS)
+									if(isNumeric(part1) && words && previous != 9)
 									{
 										previousprevious=previous;
 										previous=1;
-										actualtype=1;
-										
-									}else
+										actualtype=2;
+									}
+									else
 									{
-										System.out.print("Error de Sintaxis en"+ tokens[index]);
-										return false;
+										// Valida el MEnsaje de WRTM
+										if(isNumeric(part1))
+										{
+											previousprevious=previous;
+											previous=1;
+											actualtype=1;
+										
+										}else
+										{
+											JOptionPane.showMessageDialog(null,"No es valido para un vector o mensaje o DEFS: " + tokens[index],"Error",JOptionPane.ERROR_MESSAGE);
+
+											
+											return false;
+										}
 									}
 								}
+							
+							
 							}
+							else{
+								JOptionPane.showMessageDialog(null,"No es una variable valida: " + tokens[index],"Error",JOptionPane.ERROR_MESSAGE);
+
 							
-							
-						}
-						else{
-							System.out.println("Error de Sintaxis en"+tokens[index]);
-							return false;
-						}
+								return false;
+							}
 						
-					}
-				}else
-				{
-					actualtype=1;//constante
+						}
+					}else
+					{
+						actualtype=1;//constante
 					
+					}
 				}
 			}
 			
@@ -356,8 +381,9 @@ public class assembler {
 			
 			if(!Validate)
 			{
-				System.out.println("Sequence Error "+tokens[index]);
-                                System.out.println(""+index);
+				JOptionPane.showMessageDialog(null,"El Orden de las instrucciones no es valida: "+ tokens[index-1] + " "+ tokens[index],"Error",JOptionPane.ERROR_MESSAGE);
+
+				
 				return false;
 				
 				
@@ -395,11 +421,11 @@ public class assembler {
 		
 		return true;
 	}
-	public static int getTypeToken(String token){
+	public static int getTypeToken(String token,int previous){
 	if(token.equals(""))
 		return 0; //It's Space
 	
-	if(token.substring(token.length() - 1).equals( ":"))
+	if(token.substring(token.length() - 1).equals( ":") && previous == 0)
 		return 3; //It's Tag
 	
 	if(token.equals("ADD") || token.equals( "SUB") || token.equals( "MUL" )|| token.equals( "DIV" )|| token.equals( "MOD") || token.equals( "CMPEQ") 
@@ -408,7 +434,7 @@ public class assembler {
 		return 4; //It's Instruction 0
 	 
 	
-	if(token.equals( "SETINDEXK") || token.equals( "PUSHKI" )|| token.equals( "PUSHKF" )|| token.equals( "PUSHKD" )|| token.equals( "PUSHKC"))
+	if(token.equals( "SETINDEXK") || token.equals( "PUSHKI" )|| token.equals( "PUSHKF" )|| token.equals( "PUSHKD" ))
 		return 5; //It's Instruction K
 	
 	if(token.equals( "READI" )|| token.equals( "READD" )|| token.equals( "READF" )|| token.equals( "READC" )|| token.equals( "READS" )|| token.equals( "READVI") 
@@ -431,7 +457,12 @@ public class assembler {
 	
 	if( token.equals( "PUSHKS" )|| token.equals( "WRTM"))
 	{
-		return 9; //It's Instruction KK;
+		return 9; //It's Instruction KK
+	}
+	
+	if(token.equals( "PUSHKC"))
+	{
+		return 10; // It's Instruction K(anything)
 	}
 	
 	return 1; //Its K or V
@@ -446,13 +477,13 @@ public class assembler {
                 return false;
         
         if(actual==1)
-            if(previous==5 || previous==8 || (previous==2 && previousprevious == 7) || (previous==1 && previousprevious== 9) )
+            if(previous==5 || previous==8 || (previous==2 && previousprevious == 7) || (previous==1 && previousprevious== 9) || previous == 10)
                 return true;
             else
                 return false;
         
         if(actual == 2)
-            if (previous == 6 || previous == 7 || (previous == 1 && previousprevious == 8))
+            if (previous == 6 || previous == 7 || (previous == 1 && previousprevious == 8) || previous == 10 )
                return true;
             else
                 return false;
@@ -462,7 +493,7 @@ public class assembler {
                 return true;
             else
                 return false;
-        if(actual == 4 || actual == 5 || actual == 6 || actual == 7 || actual == 8 || actual == 9)
+        if(actual == 4 || actual == 5 || actual == 6 || actual == 7 || actual == 8 || actual == 9 || actual == 10)
             if(previous == 0 || previous == 3)
                 return true;
             else
