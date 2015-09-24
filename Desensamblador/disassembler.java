@@ -1,5 +1,4 @@
-﻿
-package disassembler;
+﻿package disassembler;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
@@ -19,18 +18,18 @@ public class disassembler{
     private static String [][] _variables=new String[0][4];
     static String[] _instructions=new String[75];
     static byte[] _bytesInFile;
+    static String _fileName;
     public static void main(String[] args) throws Exception{
         // TODO code application logic here
-	System.out.println("Prueba");
     	pasarInstruKWAalVector();
-    	String fileName =  fill_KWA();
+    	 fill_KWA();
     	fillVariables();
     	fillTags();
-    	TranslateToAssembly(fileName);
+    	TranslateToAssembly();
     }
     //FILL INSTRUCTIONS/VARIABLES/TAGS
     public static void fillVariables() throws FileNotFoundException{
-        Scanner sc = new Scanner(new FileReader("Variables.txt"));
+        Scanner sc = new Scanner(new FileReader(_fileName.substring(0, _fileName.length()-3)+"vars"));
         for(int i=0;sc.hasNext();i++){
         	_variables=makeArrayBigger(_variables,4);
         	for(int c=0;c<4;c++){
@@ -40,7 +39,7 @@ public class disassembler{
         sc.close();
     }
     public static void fillTags() throws FileNotFoundException{
-    	Scanner sc = new Scanner(new FileReader("Tags.txt"));
+    	Scanner sc = new Scanner(new FileReader(_fileName.substring(0, _fileName.length()-3)+"tags"));
         for(int i=0;sc.hasNext();i++){
         	_tags=makeArrayBigger(_tags,2);
         	for(int c=0;c<2;c++){
@@ -67,7 +66,7 @@ public class disassembler{
         archivoInstrucciones.close();
     }
     //FILL _KWA
-    public static String fill_KWA() throws IOException{
+    public static void fill_KWA() throws IOException{
         //OPEN FILE DIALOG
         Frame f=new Frame();
         boolean error=false;
@@ -75,19 +74,19 @@ public class disassembler{
         fd.setDirectory("C:\\");
         fd.setFile("*.KWA");
         fd.setVisible(true);
-        String filename="";
+        _fileName="";
         
          try
         {
-         filename = fd.getFile();
-        if (filename == null)
+         _fileName = fd.getFile();
+        if (_fileName == null)
         {
             System.out.println("You cancelled the choice");
             error=true;
         }
         else
         {
-            System.out.println("You chose " + filename);
+            System.out.println("You chose " + _fileName);
             
         }
         }catch(Exception e){System.out.println(e.getMessage());error=true;}
@@ -95,7 +94,7 @@ public class disassembler{
             System.exit(0);
         f.dispose();
         
-    	_bytesInFile=Files.readAllBytes(Paths.get(filename));
+    	_bytesInFile=Files.readAllBytes(Paths.get(_fileName));
     	byte[] segment=new byte[2];
     	byte[] dir=new byte[2];
     	byte[] intInBytes=new byte[4];
@@ -181,7 +180,7 @@ public class disassembler{
     			}
     		}
     	}
-        return filename;
+        
     }
     //0 -> Integer -- 1-> Float -- 2-> Double -- 3 -> char -- 4 -> String 
     public static int getVariableTypeCode(String instruction){
@@ -262,7 +261,7 @@ public class disassembler{
     }
 
     //DISASSEMBLY
-    public static void TranslateToAssembly(String fileName){
+    public static void TranslateToAssembly(){
         //Creates the array that is going to be used for the final print. 
         String [][] printingArray= new String[_KWA.length][3];  
         //Is used to know what type of instruction is next to be used. 
@@ -296,7 +295,7 @@ public class disassembler{
                 rowPrintingArray++;
             }
         }
-        WriteArrayToFile(printingArray,fileName);
+        WriteArrayToFile(printingArray,_fileName);
     }
     //recibe el codigo de operacion que se quiere buscar
     //regresa el tipo que es - Constante, Variable, Funcion -
@@ -361,7 +360,7 @@ public class disassembler{
     private static void WriteArrayToFile(String [][] printingArray, String fileName){
          
         try{
-            File texto=new File(fileName.substring(0,fileName.length()-4) + ".ASM");
+            File texto=new File(fileName.substring(0,fileName.length()-4) + "Des.ASM");
             FileWriter escribir = new FileWriter(texto,false);
             
             int vectorSize=0;
