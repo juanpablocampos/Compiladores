@@ -1,11 +1,13 @@
 package virtualMachine;
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 //import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
-public class virtualMachine {
+public class virtualMachine{
     //Contador de la linea actual (PC)  
     static int _currentLine;
     //Dirección de la variable dentro del segmento de datos
@@ -20,11 +22,13 @@ public class virtualMachine {
     static KwaStack _stack = new KwaStack();
     //Variable predefinida para comparar con valor NULL
     static char _nullValue='\u0000';
+    static String _fileName;
     
     public static void main(String[] args) throws IOException {
         _currentLine = 0;
         _dir = 0;
         _index = 0;
+        GetFileName();
         GetSC();
         GetSD();
         RunVirtualMachine();
@@ -233,9 +237,39 @@ public class virtualMachine {
             }
         }
     }
+    public static void GetFileName(){
+        //OPEN FILE DIALOG
+        Frame f=new Frame();
+        boolean error=false;
+        FileDialog fd = new FileDialog(f, "Choose a file", FileDialog.LOAD);       
+        fd.setDirectory("C:\\");
+        fd.setFile("*.KWA");
+        fd.setVisible(true);
+        _fileName="";
+        
+         try
+        {
+         _fileName = fd.getFile();
+        if (_fileName == null)
+        {
+            System.out.println("You cancelled the choice");
+            error=true;
+        }
+        else
+        {
+            System.out.println("You chose " + _fileName);
+            
+        }
+        }catch(Exception e){System.out.println(e.getMessage());error=true;}
+        if(error)
+            System.exit(0);
+        f.dispose();
+        
+    }
+    
     //Leer Segmento de Código
     public static void GetSC() throws IOException{
-    	byte[] bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
+    	byte[] bytesInFile=Files.readAllBytes(Paths.get(_fileName));
     	byte[] segment=new byte[2];
     	segment[0]=bytesInFile[10];
     	segment[1]=bytesInFile[11];
@@ -248,7 +282,7 @@ public class virtualMachine {
     	
     }
     public static void GetSD() throws IOException{
-    	byte[] bytesInFile=Files.readAllBytes(Paths.get("output.KWA"));
+    	byte[] bytesInFile=Files.readAllBytes(Paths.get(_fileName));
     	byte[] segment=new byte[2];
     	segment[0]=bytesInFile[12];
     	segment[1]=bytesInFile[13];

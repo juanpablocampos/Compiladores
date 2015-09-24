@@ -1,4 +1,4 @@
-package assembler;
+﻿package assembler;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.*;
@@ -929,7 +929,7 @@ public class assembler {
     public static void tagsTabletoFile()
     {
         try{
-            File texto=new File("Tags.txt");
+            File texto=new File(fileName.substring(0, fileName.length()-3)+"tags");
             FileWriter escribir = new FileWriter(texto,false);
            
             for(int i=0;i<tags.length;i++)
@@ -945,7 +945,7 @@ public class assembler {
     }
     public static void variablesTabletoFile(){
         try{
-            File texto=new File("Variables.txt");
+            File texto=new File(fileName.substring(0, fileName.length()-3)+"vars");
             FileWriter escribir = new FileWriter(texto,false);
             
             for(int i=0;i<data.length;i++)
