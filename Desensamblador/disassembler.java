@@ -21,6 +21,7 @@ public class disassembler{
     static byte[] _bytesInFile;
     public static void main(String[] args) throws Exception{
         // TODO code application logic here
+	System.out.println("Prueba");
     	pasarInstruKWAalVector();
     	String fileName =  fill_KWA();
     	fillVariables();
