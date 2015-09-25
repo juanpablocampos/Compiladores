@@ -387,6 +387,7 @@ public class virtualMachine{
         _currentLine++;
         _dir = GetDir();
         StringValue=GetVariableValue(_dir+(255*_index),StringValue);
+        System.out.println(StringValue);
         _currentLine += 2;
     }
     public static void ReadI() {
@@ -878,11 +879,11 @@ public class virtualMachine{
         _currentLine = _currentLine + 1;
     }
     public static void PUSHKS(){
-        char valueChar = '0';
+        String valueString = "0";
         _currentLine++;
-        valueChar = GetConstantValue(valueChar);
-        _stack.PUSHC(valueChar);
-        _currentLine = _currentLine + 1;
+        valueString = GetConstantValue(valueString);
+        _stack.PUSHS(valueString);
+        _currentLine = _currentLine + (valueString.length()+1);
     }   
     public static void PUSHVI(){
         int valueInt = 0;
