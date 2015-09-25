@@ -32,7 +32,7 @@ public class KwaVariable {
     KwaVariable(float varFloat){
         _varFloat = varFloat;
         _varDouble = Double.parseDouble(String.valueOf(varFloat));
-        _varInt = Integer.parseInt(String.valueOf(varFloat));
+        _varInt = (int)varFloat;//Integer.parseInt(String.valueOf(varFloat));
         _type = 1;
     }
     
