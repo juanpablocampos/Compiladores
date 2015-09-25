@@ -586,6 +586,7 @@ public class assembler {
                                     addToKWA(""+variableDir,2);
                             }
                         }
+                        tokenPos++;
                     }
                 }
             }
