@@ -273,7 +273,6 @@ public class virtualMachine{
     	byte[] segment=new byte[2];
     	segment[0]=bytesInFile[10];
     	segment[1]=bytesInFile[11];
-    	
     	_sc=new byte[ByteArrayToSegment(segment)];
     	
     	for(int i=14;i<bytesInFile.length;i++){
@@ -326,19 +325,19 @@ public class virtualMachine{
         switch (x)
         {
             case 0:
-                System.out.println(GetVariableValue(_dir, esInt));
+                System.out.print(GetVariableValue(_dir, esInt));
                 break;
             case 1:
-                System.out.println(GetVariableValue(_dir, esDouble));
+                System.out.print(GetVariableValue(_dir, esDouble));
                 break;
             case 2:
-                System.out.println(GetVariableValue(_dir, esFloat));
+                System.out.print(GetVariableValue(_dir, esFloat));
                 break;
             case 3:
-                System.out.println(GetVariableValue(_dir, esChar));
+                System.out.print(GetVariableValue(_dir, esChar));
                 break;
             case 4:
-                System.out.println(GetVariableValue(_dir, esString));
+                System.out.print(GetVariableValue(_dir, esString));
                 break;
         }
     	_currentLine += 2;
@@ -387,7 +386,7 @@ public class virtualMachine{
         _currentLine++;
         _dir = GetDir();
         StringValue=GetVariableValue(_dir+(255*_index),StringValue);
-        System.out.println(StringValue);
+        System.out.print(StringValue);
         _currentLine += 2;
     }
     public static void ReadI() {
@@ -732,13 +731,17 @@ public class virtualMachine{
         _currentLine ++;
     }
     public static void CMPGT(){
-        int type=0;
+        int type=0, num1, num2;
         type=_stack.getType();
         //Compara segun el tipo de dato y regresa un 1 si es verdadero y un cero si es falso
         switch (type)
         {
             case 0:
-                if(_stack.POPI()<_stack.POPI())
+            	num2=_stack.POPI();
+            	num1=_stack.POPI();
+            	
+                if(num1>num2)
+            	//if(_stack.POPI()<_stack.POPI())
                     _stack.PUSHI(1);
                 else
                     _stack.PUSHI(0);
@@ -888,35 +891,35 @@ public class virtualMachine{
     public static void PUSHVI(){
         int valueInt = 0;
         _currentLine++;
-        valueInt = GetVariableValue(GetDir(),valueInt);
+        valueInt = GetVariableValue(GetDir()+_index*4,valueInt);
         _stack.PUSHI(valueInt);
         _currentLine += 2;
     }
     public static void PUSHVF(){
         float valueFloat = 0;
         _currentLine++;
-        valueFloat = GetVariableValue(GetDir(),valueFloat);
+        valueFloat = GetVariableValue(GetDir()+_index*4,valueFloat);
         _stack.PUSHF(valueFloat);
         _currentLine += 2;
     }
     public static void PUSHVD(){        
         double valueDouble = 0;
         _currentLine++;
-        valueDouble = GetVariableValue(GetDir(),valueDouble);
+        valueDouble = GetVariableValue(GetDir()+_index*8,valueDouble);
         _stack.PUSHD(valueDouble);
         _currentLine += 2;
     }
     public static void PUSHVC(){
         char valueChar = ' ';
         _currentLine++;
-        valueChar = GetVariableValue(GetDir(),valueChar);
+        valueChar = GetVariableValue(GetDir()+_index,valueChar);
         _stack.PUSHC(valueChar);
         _currentLine += 2;
     }
     public static void PUSHVS(){
         String valueString = "";
         _currentLine++;
-        valueString = GetVariableValue(GetDir(),valueString);
+        valueString = GetVariableValue(GetDir()+_index*255,valueString);
         _stack.PUSHS(valueString);
         _currentLine += 2;
     }
@@ -1151,7 +1154,7 @@ public class virtualMachine{
         //Entero
         if (_stack.getType() == 0){
             var2 = _stack.POPD();
-            var2 = var1 - var2;
+            var2 = var2 - var1;
             result = var2;
             _stack.PUSHI((int)result);
         }
@@ -1159,7 +1162,7 @@ public class virtualMachine{
         //float
             if (_stack.getType() == 1){
                 var2 = _stack.POPD();
-                var2 = var1 - var2;
+                var2 = var2 - var1;
                 result = var2;
                 _stack.PUSHF((float)result);
             }
@@ -1167,7 +1170,7 @@ public class virtualMachine{
                 //double
                 if (_stack.getType() == 2){
                     var2 = _stack.POPD();
-                    var2 = var1 - var2;
+                    var2 = var2 - var1;
                     result = var2;
                     _stack.PUSHD(result);
                 }
@@ -1256,7 +1259,7 @@ public class virtualMachine{
         if (_stack.getType() == 0){
             var2 = _stack.POPD();
             if(var2 != 0){
-                var2 = var1 / var2;
+                var2 = var2 / var1;
                 result = var2;
                 _stack.PUSHI((int)result);
             }
@@ -1268,7 +1271,7 @@ public class virtualMachine{
             if (_stack.getType() == 1){
                 var2 = _stack.POPD();
                 if(var2 != 0){
-                    var2 = var1 / var2;
+                    var2 = var2 / var1;
                     result = var2;
                     _stack.PUSHF((float)result);
                 }
@@ -1280,7 +1283,7 @@ public class virtualMachine{
                 if (_stack.getType() == 2){
                     var2 = _stack.POPD();
                     if(var2 != 0){
-                        var2 = var1 / var2;
+                        var2 = var2 / var1;
                         result = var2;
                         _stack.PUSHD(result);
                     }
@@ -1321,7 +1324,7 @@ public class virtualMachine{
         if (_stack.getType() == 0){
             var2 = _stack.POPD();
             if(var2 != 0){
-                var2 = var1 % var2;
+                var2 = var2 % var1;
                 result = var2;
                 _stack.PUSHI((int)result);
             }
@@ -1333,7 +1336,7 @@ public class virtualMachine{
             if (_stack.getType() == 1){
                 var2 = _stack.POPD();
                 if(var2 != 0){
-                    var2 = var1 % var2;
+                    var2 = var2 % var1;
                     result = var2;
                     _stack.PUSHF((float)result);
                 }
@@ -1345,7 +1348,7 @@ public class virtualMachine{
                 if (_stack.getType() == 2){
                     var2 = _stack.POPD();
                     if(var2 != 0){
-                        var2 = var1 % var2;
+                        var2 = var2 % var1;
                         result = var2;
                         _stack.PUSHD(result);
                     }

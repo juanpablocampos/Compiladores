@@ -29,12 +29,17 @@ ETQB: WRTM 8,son las
 	WRTM 1,:
 	WRTI minutos
 	WRTM 3, am
+	JMP ETQTERMINAR
 ETQC: PUSHKI 12
 	POPI hora
-	JMPT ETQB
-ETQD: WRTM 8,son las 
+	JMP ETQB
+ETQD: PUSHI hora
+	PUSHKI 12
+	SUB
+	POPI hora
+	WRTM 8,son las 
 	WRTI hora
 	WRTM 1,:
 	WRTI minutos
 	WRTM 3, pm
-	HALT
+ETQTERMINAR:	HALT

@@ -117,7 +117,7 @@ public class disassembler{
     		instructionLength = getInstructionVariableSize(ByteToInstruction(_bytesInFile[index_bytesInFile]));
     		
     		_KWA[indexKWA]=(""+ByteToInstruction(_bytesInFile[index_bytesInFile]));
-    		System.out.println("["+indexKWA+"]="+_KWA[indexKWA]+"--"+"["+index_bytesInFile+"]="+_bytesInFile[index_bytesInFile]);
+    		//System.out.println("["+indexKWA+"]="+_KWA[indexKWA]+"--"+"["+index_bytesInFile+"]="+_bytesInFile[index_bytesInFile]);
     		//WRTM PUSHKS
     		if(instructionLength==-1){
     			index_bytesInFile++;
@@ -130,7 +130,7 @@ public class disassembler{
     			}
 
     			 index_bytesInFile=index_bytesInFile+variableSize;
-    			 indexKWA=indexKWA+variableSize-1;
+    			 indexKWA=indexKWA+variableSize;
     		}
     		
     		if(instructionLength==2){
