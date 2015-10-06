@@ -993,7 +993,7 @@ public class virtualMachine{
         try{
             poppedVariable = _stack.POPI();
             _currentLine++;
-            SetVariableValue(GetDir(),poppedVariable);
+            SetVariableValue(GetDir()+_index*4,poppedVariable);
             _currentLine += 2;
         }
         catch(Exception e){
@@ -1005,7 +1005,7 @@ public class virtualMachine{
         try{
             poppedVariable = _stack.POPF();
             _currentLine ++;
-            SetVariableValue(GetDir(),poppedVariable);
+            SetVariableValue(GetDir()+_index*4,poppedVariable);
             _currentLine += 2;
         }
         catch(Exception e){
@@ -1017,7 +1017,7 @@ public class virtualMachine{
         try{
             poppedVariable = _stack.POPD();
             _currentLine ++;
-            SetVariableValue(GetDir(),poppedVariable);
+            SetVariableValue(GetDir()+_index*8,poppedVariable);
             _currentLine += 2;
         }
         catch(Exception e){
@@ -1029,7 +1029,7 @@ public class virtualMachine{
         try{
             poppedVariable = _stack.POPC();
             _currentLine ++;
-            SetVariableValue(GetDir(), poppedVariable);
+            SetVariableValue(GetDir()+_index, poppedVariable);
             _currentLine += 2;
         }
         catch(Exception e){
@@ -1041,7 +1041,7 @@ public class virtualMachine{
         try{
             poppedVariable = _stack.POPS();
             _currentLine ++;
-            SetVariableValue(GetDir(), poppedVariable);
+            SetVariableValue(GetDir()+_index*255, poppedVariable);
             _currentLine += 2;
         }
         catch(Exception e){
